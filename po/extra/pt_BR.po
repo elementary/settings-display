@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-07-26 16:55+0000\n"
+"PO-Revision-Date: 2025-07-28 04:55+0000\n"
 "Last-Translator: Guilherme Faura <guilhermefaura@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.elementaryos.org/projects/"
 "settings/display-plug-extra/pt_BR/>\n"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:87
 msgid "Improvements:"
-msgstr ""
+msgstr "Melhorias:"
 
 #: data/display.metainfo.xml.in:89
 msgid "Move resolutions with a different aspect ratio to a submenu"
