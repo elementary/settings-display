@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-08-03 08:55+0000\n"
+"PO-Revision-Date: 2025-08-09 11:55+0000\n"
 "Last-Translator: JieXu <xujie0739@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://"
 "l10n.elementaryos.org/projects/settings/display/zh_Hans/>\n"
@@ -205,68 +205,60 @@ msgstr ""
 
 #: src/Views/FiltersView.vala:37
 msgid "Red/Green — High Contrast"
-msgstr ""
+msgstr "红色盲 (Protanopia)"
 
 #: src/Views/FiltersView.vala:54
 msgid "Green/Red"
-msgstr ""
+msgstr "绿/红"
 
 #: src/Views/FiltersView.vala:54 src/Views/FiltersView.vala:74
 msgid "Deuteranopia"
-msgstr ""
+msgstr "绿色盲 (Deuteranopia)"
 
 #: src/Views/FiltersView.vala:74
 msgid "Green/Red — High Contrast"
-msgstr ""
+msgstr "绿/红 — 高对比"
 
 #: src/Views/FiltersView.vala:91
 msgid "Blue/Yellow"
-msgstr ""
+msgstr "蓝/黄"
 
 #: src/Views/FiltersView.vala:91
 msgid "Tritanopia"
-msgstr ""
+msgstr "蓝色盲 (Tritanopia)"
 
 #: src/Views/FiltersView.vala:116
 msgid "Less Assistance"
-msgstr ""
+msgstr "较少协助"
 
 #: src/Views/FiltersView.vala:117
 msgid "More Assistance"
-msgstr ""
+msgstr "较多协助"
 
 #: src/Views/FiltersView.vala:130
 msgid ""
 "Reducing color can help avoid distractions and alleviate screen addiction"
-msgstr ""
+msgstr "减少色彩能够帮助避免分心或是抑制屏幕上瘾"
 
 #: src/Views/FiltersView.vala:145
-#, fuzzy
-#| msgid "More Warm"
 msgid "More Color"
-msgstr "较暖"
+msgstr "高饱和度"
 
 #: src/Views/FiltersView.vala:146
-#, fuzzy
-#| msgid "Less Warm"
 msgid "Less Color"
-msgstr "较冷"
+msgstr "低饱和度"
 
 #: src/Widgets/DisplayWidget.vala:109
 msgid "Use This Display"
 msgstr "使用此显示器"
 
 #: src/Widgets/DisplayWidget.vala:119
-#, fuzzy
-#| msgid "Resolution:"
 msgid "Resolution"
-msgstr "分辨率："
+msgstr "分辨率"
 
 #: src/Widgets/DisplayWidget.vala:147
-#, fuzzy
-#| msgid "Refresh Rate:"
 msgid "Refresh Rate"
-msgstr "刷新频率："
+msgstr "刷新频率"
 
 #: src/Widgets/DisplayWidget.vala:219
 msgid "Other…"
