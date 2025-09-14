@@ -580,21 +580,62 @@ public class Display.DisplayWidget : Gtk.Box {
     }
 
     public void set_virtual_monitor_geometry (int x, int y, int width, int height) {
-        virtual_monitor.x = x;
-        virtual_monitor.y = y;
-        real_width = width;
-        real_height = height;
+        // Avoid redundant updates that can trigger unnecessary notify signals
+        bool changed = false;
+        if (virtual_monitor.x != x) {
+            virtual_monitor.x = x;
+            changed = true;
+        }
+        if (virtual_monitor.y != y) {
+            virtual_monitor.y = y;
+            changed = true;
+        }
+        if (real_width != width) {
+            real_width = width;
+            changed = true;
+        }
+        if (real_height != height) {
+            real_height = height;
+            changed = true;
+        }
 
-        queue_resize ();
+        if (changed) {
+            queue_resize ();
+        }
     }
 
     public void move_x (int dx) {
+        if (dx == 0) {
+            return;
+        }
         virtual_monitor.x += dx;
         queue_resize ();
     }
 
     public void move_y (int dy) {
+        if (dy == 0) {
+            return;
+        }
         virtual_monitor.y += dy;
+        queue_resize ();
+    }
+
+    // Move by dx,dy in a single notify batch to avoid re-entrant signal storms
+    public void move_by (int dx, int dy) {
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+
+        // Freeze notify on the virtual monitor while applying both deltas
+        virtual_monitor.freeze_notify ();
+        if (dx != 0) {
+            virtual_monitor.x += dx;
+        }
+        if (dy != 0) {
+            virtual_monitor.y += dy;
+        }
+        virtual_monitor.thaw_notify ();
+
         queue_resize ();
     }
 

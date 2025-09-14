@@ -141,8 +141,9 @@ public class Display.DisplaysOverlay : Gtk.Box {
     // dx & dy are screen offsets from the start of dragging
     private void on_drag_update (double dx, double dy) {
         if (!only_display && dragging_display != null) {
-            dragging_display.move_x ((int) ((dx - prev_dx) / current_ratio));
-            dragging_display.move_y ((int) ((dy - prev_dy) / current_ratio));
+            var ddx = (int) ((dx - prev_dx) / current_ratio);
+            var ddy = (int) ((dy - prev_dy) / current_ratio);
+            dragging_display.move_by (ddx, ddy);
             prev_dx = dx;
             prev_dy = dy;
         }
@@ -456,8 +457,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
                 }
             }
 
-            other_display_widget.move_x (-dx);
-            other_display_widget.move_y (-dy);
+            other_display_widget.move_by (-dx, -dy);
             moved = moved || dx != 0 || dy != 0;
             if (dx != 0 || dy != 0) {
                 align_edges (other_display_widget, moved, ++level);
@@ -580,8 +580,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
                    }
                 }
 
-                other_display_widget.move_x (distance_x);
-                other_display_widget.move_y (distance_y);
+                other_display_widget.move_by (distance_x, distance_y);
                 check_intersects (other_display_widget, moved, ++level);
             }
 
