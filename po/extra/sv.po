@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2024-08-07 18:16+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
-"Language-Team: Swedish <https://l10n.elementary.io/projects/switchboard/"
+"PO-Revision-Date: 2025-10-22 05:26+0000\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
 "display-plug-extra/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.11.4\n"
 
 #: data/display.metainfo.xml.in:11
 msgid "Display Settings"
@@ -29,21 +29,21 @@ msgstr "Ställ in upplösning och placering av bildskärmar och projektorer"
 
 #: data/display.metainfo.xml.in:27
 msgid "elementary, Inc."
-msgstr ""
+msgstr "elementary, Inc."
 
 #: data/display.metainfo.xml.in:35 data/display.metainfo.xml.in:47
 #: data/display.metainfo.xml.in:63 data/display.metainfo.xml.in:78
 #: data/display.metainfo.xml.in:96 data/display.metainfo.xml.in:109
 #: data/display.metainfo.xml.in:126
 msgid "Minor updates:"
-msgstr ""
+msgstr "Mindre uppdateringar:"
 
 #: data/display.metainfo.xml.in:37 data/display.metainfo.xml.in:52
 #: data/display.metainfo.xml.in:66 data/display.metainfo.xml.in:80
 #: data/display.metainfo.xml.in:98 data/display.metainfo.xml.in:111
 #: data/display.metainfo.xml.in:128
 msgid "Updated translations"
-msgstr ""
+msgstr "Uppdaterade översättningar"
 
 #: data/display.metainfo.xml.in:49
 msgid "Fix missing settings URI handlers"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:87
 msgid "Improvements:"
-msgstr ""
+msgstr "Förbättringar:"
 
 #: data/display.metainfo.xml.in:89
 msgid "Move resolutions with a different aspect ratio to a submenu"
@@ -76,7 +76,7 @@ msgstr ""
 #: data/display.metainfo.xml.in:92 data/display.metainfo.xml.in:105
 #: data/display.metainfo.xml.in:122
 msgid "Fixes:"
-msgstr ""
+msgstr "Åtgärdar:"
 
 #: data/display.metainfo.xml.in:94
 msgid "Show display name on all workspaces"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:118
 msgid "New features:"
-msgstr ""
+msgstr "Nya funktioner:"
 
 #: data/display.metainfo.xml.in:120
 msgid "Support 3× scaling"
