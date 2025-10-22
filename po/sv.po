@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-10-22 09:59+0000\n"
+"PO-Revision-Date: 2025-10-23 13:55+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
 "display/sv/>\n"
@@ -132,11 +132,11 @@ msgstr ""
 
 #: src/Views/NightLightView.vala:26
 msgid "More Warm"
-msgstr "Mer varm"
+msgstr "Varmare"
 
 #: src/Views/NightLightView.vala:28
 msgid "Less Warm"
-msgstr "Mindre varm"
+msgstr "Kallare"
 
 #: src/Views/NightLightView.vala:40
 msgid "Sunset to Sunrise"
