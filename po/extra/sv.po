@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-10-22 05:26+0000\n"
+"PO-Revision-Date: 2025-10-22 09:59+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
 "display-plug-extra/sv/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:11
 msgid "Display Settings"
-msgstr ""
+msgstr "Visningsinställningar"
 
 #: data/display.metainfo.xml.in:12
 msgid "Configure resolution and position of monitors and projectors"
@@ -47,19 +47,19 @@ msgstr "Uppdaterade översättningar"
 
 #: data/display.metainfo.xml.in:49
 msgid "Fix missing settings URI handlers"
-msgstr ""
+msgstr "Fixa saknade URI-hanterare för inställningar"
 
 #: data/display.metainfo.xml.in:50
 msgid "Dragging displays is now smoother"
-msgstr ""
+msgstr "Det går nu smidigare att dra skärmar"
 
 #: data/display.metainfo.xml.in:51
 msgid "Show an error dialog if errors occur"
-msgstr ""
+msgstr "Visa en feldialog om fel uppstår"
 
 #: data/display.metainfo.xml.in:65
 msgid "Redesign Night Light View"
-msgstr ""
+msgstr "Ny design av nattljusvy"
 
 #: data/display.metainfo.xml.in:87
 msgid "Improvements:"
@@ -67,11 +67,11 @@ msgstr "Förbättringar:"
 
 #: data/display.metainfo.xml.in:89
 msgid "Move resolutions with a different aspect ratio to a submenu"
-msgstr ""
+msgstr "Flytta upplösningar med ett annat bildförhållande till en undermeny"
 
 #: data/display.metainfo.xml.in:90
 msgid "Improve brightness in the dark style"
-msgstr ""
+msgstr "Förbättra ljusstyrkan i den mörka stilen"
 
 #: data/display.metainfo.xml.in:92 data/display.metainfo.xml.in:105
 #: data/display.metainfo.xml.in:122
@@ -80,11 +80,13 @@ msgstr "Åtgärdar:"
 
 #: data/display.metainfo.xml.in:94
 msgid "Show display name on all workspaces"
-msgstr ""
+msgstr "Visa visningsnamn på alla arbetsytor"
 
 #: data/display.metainfo.xml.in:107
 msgid "Ensure the \"Use this display\" switch works in more circumstances"
 msgstr ""
+"Säkerställa att \"Använd den här skärmen\"-knappen fungerar i fler "
+"situationer"
 
 #: data/display.metainfo.xml.in:118
 msgid "New features:"
@@ -92,8 +94,8 @@ msgstr "Nya funktioner:"
 
 #: data/display.metainfo.xml.in:120
 msgid "Support 3× scaling"
-msgstr ""
+msgstr "Stöd för 3×-skalning"
 
 #: data/display.metainfo.xml.in:124
 msgid "Reliably detect accelerometers"
-msgstr ""
+msgstr "Tillförlitlig detektering av accelerometrar"
