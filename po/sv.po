@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2018-10-26 19:07+0000\n"
-"Last-Translator: Fredrik B <frbo9002@gmail.com>\n"
-"Language-Team: Swedish <https://weblate.elementary.io/projects/switchboard/"
-"switchboard-plug-display/sv/>\n"
+"PO-Revision-Date: 2025-10-22 09:59+0000\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
+"display/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2016-12-22 05:40+0000\n"
 
 #: src/DisplayPlug.vala:39 src/DisplayPlug.vala:51
@@ -36,7 +36,7 @@ msgstr "Nattljus"
 #: src/DisplayPlug.vala:62 src/DisplayPlug.vala:124 src/DisplayPlug.vala:125
 #: src/DisplayPlug.vala:126 src/DisplayPlug.vala:127
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 #: src/DisplayPlug.vala:116
 msgid "Screen Resolution"
@@ -68,19 +68,19 @@ msgstr "Färgtemperatur"
 
 #: src/DisplayPlug.vala:124
 msgid "Color Blindness"
-msgstr ""
+msgstr "Färgblindhet"
 
 #: src/DisplayPlug.vala:125
 msgid "Color Vision Deficiency"
-msgstr ""
+msgstr "Nedsatt färgseende"
 
 #: src/DisplayPlug.vala:126 src/Views/FiltersView.vala:129
 msgid "Grayscale"
-msgstr ""
+msgstr "Gråskala"
 
 #: src/DisplayPlug.vala:127
 msgid "Monochrome"
-msgstr ""
+msgstr "Monokrom"
 
 #: src/DisplayPlug.vala:130
 msgid "Rotation lock"
@@ -123,16 +123,12 @@ msgid "Mirrored Display"
 msgstr "Speglad bildskärm"
 
 #: src/Views/NightLightView.vala:9
-#, fuzzy
-#| msgid ""
-#| "Night Light makes the colors of your display warmer. This may help "
-#| "prevent eye strain and sleeplessness."
 msgid ""
 "Making the colors of your display warmer may help prevent eye strain and "
 "sleeplessness"
 msgstr ""
-"Nattljus gör färgerna på din skärm varmare. Detta kan förhindra "
-"ögonansträngning och sömnlöshet."
+"Om du gör färgerna på din skärm varmare kan det hjälpa till att förhindra "
+"ansträngda ögon och sömnlöshet"
 
 #: src/Views/NightLightView.vala:26
 msgid "More Warm"
@@ -168,7 +164,7 @@ msgstr "LoDPI"
 
 #: src/Views/DisplaysView.vala:39 src/Views/DisplaysView.vala:40
 msgid "HiDPI"
-msgstr ""
+msgstr "HiDPI"
 
 #: src/Views/DisplaysView.vala:51
 msgid "Detect Displays"
@@ -184,96 +180,94 @@ msgstr "Rotationslås:"
 
 #: src/Views/DisplaysView.vala:157
 msgid "Failed to apply display settings"
-msgstr ""
+msgstr "Misslyckades med att tillämpa skärminställningar"
 
 #: src/Views/DisplaysView.vala:158
 msgid "This can be caused by an invalid configuration."
-msgstr ""
+msgstr "Detta kan orsakas av en ogiltig konfiguration."
 
 #: src/Views/FiltersView.vala:10
 msgid "Color Deficiency Assistance"
-msgstr ""
+msgstr "Hjälp med färgbrist"
 
 #: src/Views/FiltersView.vala:11
 msgid ""
 "Each of the circles below should appear as a different color. A filter can "
 "be applied to the entire display to help differentiate between colors."
 msgstr ""
+"Var och en av cirklarna nedan ska visas som en annan färg. Ett filter kan "
+"appliceras på hela skärmen för att hjälpa till att skilja mellan färgerna."
 
 #: src/Views/FiltersView.vala:17
 msgid "Red/Green"
-msgstr ""
+msgstr "Röd/Grön"
 
 #: src/Views/FiltersView.vala:17 src/Views/FiltersView.vala:37
 msgid "Protanopia"
-msgstr ""
+msgstr "Protanopi"
 
 #: src/Views/FiltersView.vala:37
 msgid "Red/Green — High Contrast"
-msgstr ""
+msgstr "Röd/Grön - Hög kontrast"
 
 #: src/Views/FiltersView.vala:54
 msgid "Green/Red"
-msgstr ""
+msgstr "Grön/Röd"
 
 #: src/Views/FiltersView.vala:54 src/Views/FiltersView.vala:74
 msgid "Deuteranopia"
-msgstr ""
+msgstr "Deuteranopi"
 
 #: src/Views/FiltersView.vala:74
 msgid "Green/Red — High Contrast"
-msgstr ""
+msgstr "Grön/Röd - Hög kontrast"
 
 #: src/Views/FiltersView.vala:91
 msgid "Blue/Yellow"
-msgstr ""
+msgstr "Blå/Gul"
 
 #: src/Views/FiltersView.vala:91
 msgid "Tritanopia"
-msgstr ""
+msgstr "Tritanopi"
 
 #: src/Views/FiltersView.vala:116
 msgid "Less Assistance"
-msgstr ""
+msgstr "Mindre assistans"
 
 #: src/Views/FiltersView.vala:117
 msgid "More Assistance"
-msgstr ""
+msgstr "Mer assistans"
 
 #: src/Views/FiltersView.vala:130
 msgid ""
 "Reducing color can help avoid distractions and alleviate screen addiction"
 msgstr ""
+"Att minska färgen kan bidra till att undvika distraktioner och lindra "
+"skärmberoende"
 
 #: src/Views/FiltersView.vala:145
-#, fuzzy
-#| msgid "More Warm"
 msgid "More Color"
-msgstr "Mer varm"
+msgstr "Mer färg"
 
 #: src/Views/FiltersView.vala:146
-#, fuzzy
-#| msgid "Less Warm"
 msgid "Less Color"
-msgstr "Mindre varm"
+msgstr "Mindre färg"
 
 #: src/Widgets/DisplayWidget.vala:109
 msgid "Use This Display"
 msgstr "Använd den här bildskärmen"
 
 #: src/Widgets/DisplayWidget.vala:119
-#, fuzzy
-#| msgid "Resolution:"
 msgid "Resolution"
-msgstr "Upplösning:"
+msgstr "Upplösning"
 
 #: src/Widgets/DisplayWidget.vala:147
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Uppdateringsfrekvens"
 
 #: src/Widgets/DisplayWidget.vala:219
 msgid "Other…"
-msgstr ""
+msgstr "Andra…"
 
 #: src/Widgets/DisplayWidget.vala:293
 msgid "Configure display"
@@ -282,7 +276,7 @@ msgstr "Konfigurera bildskärm"
 #: src/Widgets/DisplayWidget.vala:490
 #, c-format
 msgid "%g Hz"
-msgstr ""
+msgstr "%g Hz"
 
 #: src/Widgets/DisplayWidget.vala:557
 msgid "Is the primary display"
