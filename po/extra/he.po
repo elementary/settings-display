@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2024-08-18 17:16+0000\n"
+"PO-Revision-Date: 2025-10-30 09:55+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <https://l10n.elementary.io/projects/switchboard/"
+"Language-Team: Hebrew <https://l10n.elementaryos.org/projects/settings/"
 "display-plug-extra/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.11.4\n"
 
 #: data/display.metainfo.xml.in:11
 msgid "Display Settings"
@@ -29,7 +29,7 @@ msgstr "הגדרת הרזולוציה ומיקומם של מסכים ומקרנ�
 
 #: data/display.metainfo.xml.in:27
 msgid "elementary, Inc."
-msgstr "elementary בע״מ"
+msgstr "elementary בע״מ."
 
 #: data/display.metainfo.xml.in:35 data/display.metainfo.xml.in:47
 #: data/display.metainfo.xml.in:63 data/display.metainfo.xml.in:78
