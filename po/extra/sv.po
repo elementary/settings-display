@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-10-22 09:59+0000\n"
+"PO-Revision-Date: 2025-10-30 09:55+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
 "display-plug-extra/sv/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:11
 msgid "Display Settings"
-msgstr "Visningsinställningar"
+msgstr "Skärminställningar"
 
 #: data/display.metainfo.xml.in:12
 msgid "Configure resolution and position of monitors and projectors"
@@ -80,13 +80,12 @@ msgstr "Åtgärdar:"
 
 #: data/display.metainfo.xml.in:94
 msgid "Show display name on all workspaces"
-msgstr "Visa visningsnamn på alla arbetsytor"
+msgstr "Visa skärmnamn på alla arbetsytor"
 
 #: data/display.metainfo.xml.in:107
 msgid "Ensure the \"Use this display\" switch works in more circumstances"
 msgstr ""
-"Säkerställa att \"Använd den här skärmen\"-knappen fungerar i fler "
-"situationer"
+"Säkerställa att \"Använd denna skärm\"-knappen fungerar i fler situationer"
 
 #: data/display.metainfo.xml.in:118
 msgid "New features:"
@@ -98,4 +97,4 @@ msgstr "Stöd för 3×-skalning"
 
 #: data/display.metainfo.xml.in:124
 msgid "Reliably detect accelerometers"
-msgstr "Tillförlitlig detektering av accelerometrar"
+msgstr "Tillförlitlig upptäckt av accelerometrar"
