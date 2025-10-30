@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2025-10-23 13:55+0000\n"
+"PO-Revision-Date: 2025-10-30 09:55+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <https://l10n.elementaryos.org/projects/settings/"
 "display/sv/>\n"
@@ -100,7 +100,7 @@ msgstr "Moturs"
 
 #: src/Interfaces/MutterDisplayConfig.vala:64
 msgid "Flipped"
-msgstr "Vänd horisontellt"
+msgstr "Vänd"
 
 #: src/Interfaces/MutterDisplayConfig.vala:66
 msgid "Flipped Clockwise"
@@ -188,7 +188,7 @@ msgstr "Detta kan orsakas av en ogiltig konfiguration."
 
 #: src/Views/FiltersView.vala:10
 msgid "Color Deficiency Assistance"
-msgstr "Hjälp med färgbrist"
+msgstr "Hjälp med defekt färgseende"
 
 #: src/Views/FiltersView.vala:11
 msgid ""
@@ -196,7 +196,7 @@ msgid ""
 "be applied to the entire display to help differentiate between colors."
 msgstr ""
 "Var och en av cirklarna nedan ska visas som en annan färg. Ett filter kan "
-"appliceras på hela skärmen för att hjälpa till att skilja mellan färgerna."
+"tillämpas på hela skärmen för att hjälpa till att särskilja mellan färgerna."
 
 #: src/Views/FiltersView.vala:17
 msgid "Red/Green"
@@ -232,11 +232,11 @@ msgstr "Tritanopi"
 
 #: src/Views/FiltersView.vala:116
 msgid "Less Assistance"
-msgstr "Mindre assistans"
+msgstr "Mindre hjälp"
 
 #: src/Views/FiltersView.vala:117
 msgid "More Assistance"
-msgstr "Mer assistans"
+msgstr "Mer hjälp"
 
 #: src/Views/FiltersView.vala:130
 msgid ""
@@ -255,7 +255,7 @@ msgstr "Mindre färg"
 
 #: src/Widgets/DisplayWidget.vala:109
 msgid "Use This Display"
-msgstr "Använd den här bildskärmen"
+msgstr "Använd denna bildskärm"
 
 #: src/Widgets/DisplayWidget.vala:119
 msgid "Resolution"
@@ -284,7 +284,7 @@ msgstr "Är den primära skärmen"
 
 #: src/Widgets/DisplayWidget.vala:560
 msgid "Set as primary display"
-msgstr "Använd som primär bildskärm"
+msgstr "Ställ in som primär bildskärm"
 
 #, fuzzy
 #~| msgid "Use This Display:"
