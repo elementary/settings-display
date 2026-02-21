@@ -582,18 +582,22 @@ public class Display.DisplayWidget : Gtk.Box {
     public void set_virtual_monitor_geometry (int x, int y, int width, int height) {
         // Avoid redundant updates that can trigger unnecessary notify signals
         bool changed = false;
+
         if (virtual_monitor.x != x) {
             virtual_monitor.x = x;
             changed = true;
         }
+
         if (virtual_monitor.y != y) {
             virtual_monitor.y = y;
             changed = true;
         }
+
         if (real_width != width) {
             real_width = width;
             changed = true;
         }
+
         if (real_height != height) {
             real_height = height;
             changed = true;
@@ -608,6 +612,7 @@ public class Display.DisplayWidget : Gtk.Box {
         if (dx == 0) {
             return;
         }
+
         virtual_monitor.x += dx;
         queue_resize ();
     }
@@ -616,6 +621,7 @@ public class Display.DisplayWidget : Gtk.Box {
         if (dy == 0) {
             return;
         }
+
         virtual_monitor.y += dy;
         queue_resize ();
     }

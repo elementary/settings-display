@@ -11,7 +11,15 @@ public class TestVM : GLib.Object {
     public int h { get; set; }
 
     public TestVM (int x, int y, int w, int h) {
-        this.x = x; this.y = y; this.w = w; this.h = h;
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+    }
+
+    public void move_by (int dx, int dy) {
+        x += dx;
+        y += dy;
     }
 }
 
@@ -23,15 +31,21 @@ namespace Layout {
             min_x = int.min (min_x, vm.x);
             min_y = int.min (min_y, vm.y);
         }
-        if (min_x == 0 && min_y == 0) return;
+
+        if (min_x == 0 && min_y == 0) {
+            return;
+        }
+
         foreach (unowned var vm in vms) {
-            vm.x -= min_x; vm.y -= min_y;
+            vm.move_by (-min_x, -min_y);
         }
     }
 
     public bool intersects (TestVM a, TestVM b, out int ovw, out int ovh) {
-        int ax2 = a.x + a.w, ay2 = a.y + a.h;
-        int bx2 = b.x + b.w, by2 = b.y + b.h;
+        int ax2 = a.x + a.w;
+        int ay2 = a.y + a.h;
+        int bx2 = b.x + b.w;
+        int by2 = b.y + b.h;
         ovw = int.max (0, int.min (ax2, bx2) - int.max (a.x, b.x));
         ovh = int.max (0, int.min (ay2, by2) - int.max (a.y, b.y));
         return ovw > 0 && ovh > 0;
@@ -39,13 +53,27 @@ namespace Layout {
 
     // Resolve overlaps by moving B minimally away from A along smaller overlap axis
     public bool resolve_overlap_once (TestVM a, TestVM b) {
-        int ovw, ovh;
-        if (!intersects (a, b, out ovw, out ovh)) return false;
-        if (ovw <= ovh) {
-            if (b.x < a.x) b.x -= ovw; else b.x += ovw;
-        } else {
-            if (b.y < a.y) b.y -= ovh; else b.y += ovh;
+        int ovw;
+        int ovh;
+
+        if (!intersects (a, b, out ovw, out ovh)) {
+            return false;
         }
+
+        if (ovw <= ovh) {
+            if (b.x < a.x) {
+                b.move_by (-ovw, 0);
+            } else {
+                b.move_by (ovw, 0);
+            }
+        } else {
+            if (b.y < a.y) {
+                b.move_by (0, -ovh);
+            } else {
+                b.move_by (0, ovh);
+            }
+        }
+
         return true;
     }
 
@@ -58,7 +86,10 @@ namespace Layout {
                     moved = resolve_overlap_once (vms.nth_data (i), vms.nth_data (j)) || moved;
                 }
             }
-            if (!moved) break;
+
+            if (!moved) {
+                break;
+            }
         }
     }
 
@@ -72,22 +103,30 @@ namespace Layout {
     }
 
     public bool is_connected_all (GLib.List<TestVM> vms) {
-        if (vms.length () <= 1) return true;
-    var seen = new GLib.HashTable<TestVM,bool> (GLib.direct_hash, GLib.direct_equal);
-    var queue = new GLib.Queue<TestVM> ();
+        if (vms.length () <= 1) {
+            return true;
+        }
+
+        var seen = new GLib.HashTable<TestVM,bool> (GLib.direct_hash, GLib.direct_equal);
+        var queue = new GLib.Queue<TestVM> ();
         var first = vms.nth_data (0);
         seen.insert (first, true);
         queue.push_tail (first);
+
         while (!queue.is_empty ()) {
             var cur = queue.pop_head ();
             foreach (unowned var vm in vms) {
-                if (seen.lookup (vm)) continue;
+                if (seen.lookup (vm)) {
+                    continue;
+                }
+
                 if (is_connected_pair (cur, vm)) {
                     seen.insert (vm, true);
                     queue.push_tail (vm);
                 }
             }
         }
+
         return seen.size () == vms.length ();
     }
 }
@@ -158,6 +197,9 @@ int main (string[] args) {
     assert_true (Layout.is_connected_all (t6), "T6: stacked connected");
 
     // If we reached here, all tests passed
-    if (failures == 0) message ("layout tests passed");
+    if (failures == 0) {
+        message ("layout tests passed");
+    }
+
     return failures == 0 ? 0 : 1;
 }

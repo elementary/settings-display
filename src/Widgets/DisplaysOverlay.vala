@@ -141,9 +141,9 @@ public class Display.DisplaysOverlay : Gtk.Box {
     // dx & dy are screen offsets from the start of dragging
     private void on_drag_update (double dx, double dy) {
         if (!only_display && dragging_display != null) {
-            var ddx = (int) ((dx - prev_dx) / current_ratio);
-            var ddy = (int) ((dy - prev_dy) / current_ratio);
-            dragging_display.move_by (ddx, ddy);
+            var delta_x = (int) ((dx - prev_dx) / current_ratio);
+            var delta_y = (int) ((dy - prev_dy) / current_ratio);
+            dragging_display.move_by (delta_x, delta_y);
             prev_dx = dx;
             prev_dy = dy;
         }
