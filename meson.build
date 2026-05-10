@@ -1,7 +1,8 @@
 project(
     'display',
     'vala', 'c',
-    version: '8.0.2'
+    version: '8.0.2',
+    meson_version: '>=0.58.0'
 )
 
 gettext_name = 'io.elementary.settings.' + meson.project_name()
@@ -9,8 +10,8 @@ gnome = import('gnome')
 i18n = import('i18n')
 
 prefix = get_option('prefix')
-datadir = join_paths(prefix, get_option('datadir'))
-libdir = join_paths(prefix, get_option('libdir'))
+datadir = prefix / get_option('datadir')
+libdir = prefix / get_option('libdir')
 
 add_project_arguments(
     '-DGETTEXT_PACKAGE="@0@"'.format(gettext_name),
@@ -19,7 +20,7 @@ add_project_arguments(
 )
 
 config_data = configuration_data()
-config_data.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+config_data.set_quoted('LOCALEDIR', get_option('prefix') / get_option('localedir'))
 config_data.set_quoted('GETTEXT_PACKAGE', gettext_name)
 config_file = configure_file(
     input: 'src/Config.vala.in',
