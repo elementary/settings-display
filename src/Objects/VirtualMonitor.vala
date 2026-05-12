@@ -119,23 +119,23 @@ public class Display.VirtualMonitor : GLib.Object {
             // mode when the monitor is re-activated
             foreach (var mode in monitor.modes) {
                 if (mode.is_preferred) {
-                    width = scaled(mode.width);
-                    height = scaled(mode.height);
+                    width = apply_current_scale (mode.width);
+                    height = apply_current_scale (mode.height);
                     return;
                 }
             }
 
             // Last resort fallback if no preferred mode
-            width = scaled(1280);
-            height = scaled(720);
+            width = apply_current_scale (1280);
+            height = apply_current_scale (720);
         } else if (is_mirror) {
             var current_mode = monitors[0].current_mode;
-            width = scaled(current_mode.width);
-            height = scaled(current_mode.height);
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         } else {
             var current_mode = monitor.current_mode;
-            width = scaled(current_mode.width);
-            height = scaled(current_mode.height);
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         }
     }
 
@@ -217,7 +217,7 @@ public class Display.VirtualMonitor : GLib.Object {
      * @param dimension The monitor dimension to scale (width or height) by the current `scale` factor
      * @return the dimension scaled then rounded up and converted back to int
      */
-    private int scaled (int dimension) {
+    private int apply_current_scale (int dimension) {
         return (int) Math.ceil (dimension / scale);
     }
 }
