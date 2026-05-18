@@ -59,7 +59,7 @@ public class Display.VirtualMonitor : GLib.Object {
         }
     }
 
-    /*
+    /**
      * Used to distinguish two VirtualMonitors from each other.
      * We make up and ID by sum all hashes of
      * monitors that a VirtualMonitor has.
@@ -83,7 +83,7 @@ public class Display.VirtualMonitor : GLib.Object {
 
     public bool is_active { get; set; default = true; }
 
-    /*
+    /**
      * Get the first monitor of the list, handy in non-mirror context.
      */
     public Display.Monitor monitor {
@@ -119,23 +119,23 @@ public class Display.VirtualMonitor : GLib.Object {
             // mode when the monitor is re-activated
             foreach (var mode in monitor.modes) {
                 if (mode.is_preferred) {
-                    width = mode.width;
-                    height = mode.height;
+                    width = apply_current_scale (mode.width);
+                    height = apply_current_scale (mode.height);
                     return;
                 }
             }
 
             // Last resort fallback if no preferred mode
-            width = 1280;
-            height = 720;
+            width = apply_current_scale (1280);
+            height = apply_current_scale (720);
         } else if (is_mirror) {
             var current_mode = monitors[0].current_mode;
-            width = current_mode.width;
-            height = current_mode.height;
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         } else {
             var current_mode = monitor.current_mode;
-            width = current_mode.width;
-            height = current_mode.height;
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         }
     }
 
@@ -210,5 +210,14 @@ public class Display.VirtualMonitor : GLib.Object {
         }
 
         return val.to_string ();
+    }
+
+    /**
+     * Apply scaling, to avoid gaps between virtual monitors in the configuration
+     * @param dimension The monitor dimension to scale (width or height) by the current `scale` factor
+     * @return the dimension scaled then rounded up and converted back to int
+     */
+    private int apply_current_scale (int dimension) {
+        return (int) Math.ceil (dimension / scale);
     }
 }
