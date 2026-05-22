@@ -433,7 +433,9 @@ public class Display.DisplayWidget : Gtk.Box {
             // Prevent breaking autohide by closing popover
             popover.popdown ();
 
+            virtual_monitor.get_current_mode_size (out real_height, out real_width);
             configuration_changed ();
+            check_position ();
         });
 
         rotation_combobox.set_active ((int) virtual_monitor.transform);

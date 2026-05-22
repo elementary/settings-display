@@ -20,7 +20,7 @@ plug_files = files(
 )
 
 switchboard_dep = dependency('switchboard-3')
-switchboard_plugsdir = switchboard_dep.get_pkgconfig_variable('plugsdir', define_variable: ['libdir', libdir])
+switchboard_plugsdir = switchboard_dep.get_variable('plugsdir', pkgconfig_define: ['libdir', libdir])
 
 shared_module(
     meson.project_name(),
@@ -31,12 +31,12 @@ shared_module(
         dependency('glib-2.0'),
         dependency('gio-2.0'),
         dependency('gobject-2.0'),
-        dependency('granite-7'),
+        dependency('granite-7', version: '>=7.7.0'),
         dependency('gtk4'),
         dependency('libadwaita-1'),
         meson.get_compiler('vala').find_library('posix'),
         switchboard_dep
     ],
     install: true,
-    install_dir : join_paths(switchboard_plugsdir, 'hardware')
+    install_dir : switchboard_plugsdir / 'hardware'
 )
