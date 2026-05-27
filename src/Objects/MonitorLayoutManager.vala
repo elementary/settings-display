@@ -27,35 +27,19 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
         var layout_key = get_layout_key (virtual_monitors);
         var layout = find_match_layout (layout_key);
-        var has_update = false;
 
         if (layout != null) {
             foreach (var virtual_monitor in virtual_monitors) {
-                var monitor_position = layout.find_position_by_id (
-                    virtual_monitor.monitors[0].hash.to_string ()
-                );
-
-                if (monitor_position != null) {
-                    if ((virtual_monitor.x != monitor_position.x
-                        || virtual_monitor.y != monitor_position.y
-                        || virtual_monitor.transform != monitor_position.transform)) {
-
-                        has_update = true;
-                        break;
-                    }
-
-                    virtual_monitor.x = monitor_position.x;
-                    virtual_monitor.y = monitor_position.y;
-                    virtual_monitor.transform = monitor_position.transform;
+                DisplayTransform transform;
+                int x, y;
+                if (layout.lookup (virtual_monitor.id, "(iiu)", out x, out y, out transform)) {
+                    virtual_monitor.x = x;
+                    virtual_monitor.y = y;
+                    virtual_monitor.transform = transform;
                 }
             }
         } else {
             // If no layout found, we save the current layout to use later
-            save_layout (virtual_monitors);
-        }
-
-        if (has_update) {
-            // If the layout has been updated, save the new layout
             save_layout (virtual_monitors);
         }
     }
@@ -69,7 +53,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
         add_or_update_layout (layouts, key, layout_variant);
     }
 
-    private MonitorLayoutProfile? find_match_layout (string key) {
+    private VariantDict? find_match_layout (string key) {
         // Layouts format are 'a{sa{sa{sv}}}'
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
 
@@ -77,44 +61,9 @@ public class Display.MonitorLayoutManager : GLib.Object {
             return null; // No layouts saved
         }
 
-        for (var i = 0; i < layouts.n_children (); i++) {
-            var layout = layouts.get_child_value (i);
-            var layout_key = layout.get_child_value (0).get_string ();
-            var monitors = layout.get_child_value (1);
-
-            if (layout_key != key) {
-                continue;
-            }
-
-            var virtual_monitor_position = new MonitorLayoutProfile (layout_key);
-
-            // Process the monitors in the layout
-            for (var j = 0; j < monitors.n_children (); j++) {
-                var monitor = monitors.get_child_value (j);
-                var monitor_props = monitor.get_child_value (1);
-
-                virtual_monitor_position.add_position (
-                    monitor.get_child_value (0)
-                        .get_string (), // id
-                    monitor_props.get_child_value (0)
-                        .get_child_value (1)
-                        .get_child_value (0)
-                        .get_int32 (), // x position
-                    monitor_props.get_child_value (1)
-                        .get_child_value (1)
-                        .get_child_value (0)
-                        .get_int32 (), // y position
-                    monitor_props.get_child_value (2)
-                        .get_child_value (1)
-                        .get_child_value (0)
-                        .get_int32 () // transform
-                );
-            }
-
-            return virtual_monitor_position;
-        }
-
-        return null;
+        VariantDict? monitors = null;
+        layouts.lookup (key, "a{sa{sv}}", out monitors);
+        return monitors;
     }
 
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
