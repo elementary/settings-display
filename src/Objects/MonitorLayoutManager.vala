@@ -51,33 +51,13 @@ public class Display.MonitorLayoutManager : GLib.Object {
     }
 
     private void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-        var key = get_layout_key (virtual_monitors);
-        var layout_variant = build_layout_variant (virtual_monitors);
 
-        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
 
-        add_or_update_layout (layouts, key, layout_variant);
-    }
-
-    private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-        // Generate a unique key based on the virtual monitors' monitors hashes
-        var key = new StringBuilder ();
-
-        foreach (var virtual_monitor in virtual_monitors) {
-            foreach (var monitor in virtual_monitor.monitors) {
-                key.append (virtual_monitor.id);
-            }
-        }
-
-        return key.str;
-    }
-
-    private GLib.Variant build_layout_variant (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
+        //Build the layout variant
         var dict_builder = new VariantBuilder (VariantType.DICTIONARY);
-
         foreach (var monitor in virtual_monitors) {
             var props_builder = new VariantBuilder (VariantType.DICTIONARY);
-            var key = monitor.monitors.get (0).hash.to_string ();
+            var monitor_key = monitor.monitors.get (0).hash.to_string ();
 
             var coordinate_x_variant = new Variant.variant (new Variant.int32 (monitor.x));
             var coordinate_y_variant = new Variant.variant (new Variant.int32 (monitor.y));
@@ -91,10 +71,27 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
             warning (props_variant.print (true));
 
-            dict_builder.add_value (new Variant.dict_entry (key, props_variant));
+            dict_builder.add_value (new Variant.dict_entry (monitor_key, props_variant));
         }
 
-        return dict_builder.end ();
+        var layout_variant = dict_builder.end ();
+        // Add or update the layouts setting
+        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
+        var layout_key = get_layout_key (virtual_monitors);
+        add_or_update_layout (layouts, layout_key, layout_variant);
+    }
+
+    private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
+        // Generate a unique key based on the virtual monitors' monitors hashes
+        var key = new StringBuilder ();
+
+        foreach (var virtual_monitor in virtual_monitors) {
+            foreach (var monitor in virtual_monitor.monitors) {
+                key.append (virtual_monitor.id);
+            }
+        }
+
+        return key.str;
     }
 
     private void add_or_update_layout (GLib.Variant layouts, string key, GLib.Variant layout_variant) {
