@@ -201,40 +201,72 @@ public class Display.DisplaysOverlay : Gtk.Box {
         change_active_displays_sensitivity ();
         calculate_ratio ();
         scanning = false;
+
+        show_windows ();
     }
 
-    public void show_windows () requires (gala_dbus != null) {
-        if (monitor_manager.is_mirrored) {
+    private MonitorLabel[] monitor_labels = {};
+    public void show_windows () {
+        if (monitor_manager.is_mirrored || scanning) {
             return;
         }
 
-        MonitorLabelInfo[] label_infos = {};
-
-        foreach (unowned var widget in display_widgets) {
-            if (widget.virtual_monitor.is_active) {
-                label_infos += MonitorLabelInfo () {
-                    monitor = label_infos.length,
-                    label = widget.virtual_monitor.get_display_name (),
-                    background_color = widget.bg_color,
-                    text_color = widget.text_color,
-                    x = widget.virtual_monitor.current_x,
-                    y = widget.virtual_monitor.current_y
-                };
+        var display = Gdk.Display.get_default ();
+        if (display is Gdk.X11.Display) {
+            if (gala_dbus == null) {
+                return;
             }
-        }
-
-        try {
-            gala_dbus.show_monitor_labels (label_infos);
-        } catch (Error e) {
-            warning ("Couldn't show monitor labels: %s", e.message);
+            MonitorLabelInfo[] label_infos = {};
+            foreach (unowned var widget in display_widgets) {
+                if (widget.virtual_monitor.is_active) {
+                    label_infos += MonitorLabelInfo () {
+                        monitor = label_infos.length,
+                        label = widget.virtual_monitor.get_display_name (),
+                        background_color = widget.bg_color,
+                        text_color = widget.text_color,
+                        x = widget.virtual_monitor.current_x,
+                        y = widget.virtual_monitor.current_y
+                    };
+                }
+            }
+            try {
+                gala_dbus.show_monitor_labels (label_infos);
+            } catch (Error e) {
+                warning ("Couldn't show monitor labels: %s", e.message);
+            }
+        } else {
+            hide_windows (); // Ensure existing labels destroyed
+            foreach (unowned var widget in display_widgets) {
+                if (widget.virtual_monitor.is_active) {
+                    var monitor_label = new MonitorLabel (
+                        monitor_labels.length, widget.virtual_monitor.get_display_name (),
+                        widget.bg_color, widget.text_color
+                    );
+                    monitor_label.present ();
+                    monitor_labels += monitor_label;
+                }
+            }
         }
     }
 
-    public void hide_windows () requires (gala_dbus != null) {
-        try {
-            gala_dbus.hide_monitor_labels ();
-        } catch (Error e) {
-            warning ("Couldn't hide monitor labels: %s", e.message);
+    public void hide_windows () {
+        var display = Gdk.Display.get_default ();
+        if (display is Gdk.X11.Display) {
+            if (gala_dbus == null) {
+                return;
+            }
+
+            try {
+                gala_dbus.hide_monitor_labels ();
+            } catch (Error e) {
+                warning ("Couldn't hide monitor labels: %s", e.message);
+            }
+        } else {
+            foreach (var monitor_label in monitor_labels) {
+                monitor_label.destroy ();
+            }
+
+            monitor_labels = {};
         }
     }
 
