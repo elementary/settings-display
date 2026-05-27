@@ -65,11 +65,11 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
         foreach (var virtual_monitor in virtual_monitors) {
             foreach (var monitor in virtual_monitor.monitors) {
-                key.append (monitor.hash.to_string ());
+                key.append (virtual_monitor.id);
             }
         }
 
-        return key.str.hash ().to_string ();
+        return key.str;
     }
 
     private GLib.Variant build_layout_variant (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
