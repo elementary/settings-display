@@ -27,16 +27,7 @@ public class Display.MonitorLabel : Gtk.Window, PantheonWayland.ExtendedBehavior
     }
 
     construct {
-        // Construct a label roughly matching that shown in Classic session
-        child = new Gtk.Label (label) {
-            margin_start = 12,
-            margin_end = 12,
-            margin_top = 12,
-            margin_bottom = 12,
-            halign = CENTER,
-            valign = CENTER
-        };
-        child.add_css_class (Granite.STYLE_CLASS_H3_LABEL);
+        child = new Gtk.Label (label);
 
         decorated = false;
         resizable = false;
@@ -46,6 +37,7 @@ public class Display.MonitorLabel : Gtk.Window, PantheonWayland.ExtendedBehavior
 
         var provider = new Gtk.CssProvider ();
         try {
+            // Provide appearance similar to classic session
             provider.load_from_string (COLORED_STYLE_CSS.printf (index, bg_color, text_color));
             add_css_class ("label-%d".printf (index));
             add_css_class ("monitor-label");
