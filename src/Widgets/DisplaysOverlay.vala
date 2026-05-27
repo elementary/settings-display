@@ -201,10 +201,12 @@ public class Display.DisplaysOverlay : Gtk.Box {
         change_active_displays_sensitivity ();
         calculate_ratio ();
         scanning = false;
+
+        show_window_labels ();
     }
 
-    public void show_windows () requires (gala_dbus != null) {
-        if (monitor_manager.is_mirrored) {
+    public void show_window_labels () requires (gala_dbus != null) {
+        if (monitor_manager.is_mirrored || scanning) {
             return;
         }
 
@@ -212,7 +214,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
         foreach (unowned var widget in display_widgets) {
             if (widget.virtual_monitor.is_active) {
-                label_infos += MonitorLabelInfo () {
+                var info = MonitorLabelInfo () {
                     monitor = label_infos.length,
                     label = widget.virtual_monitor.get_display_name (),
                     background_color = widget.bg_color,
@@ -220,6 +222,10 @@ public class Display.DisplaysOverlay : Gtk.Box {
                     x = widget.virtual_monitor.current_x,
                     y = widget.virtual_monitor.current_y
                 };
+
+                debug ("label info: monitor %u %s, %i, %i", info.monitor, info.label, info.x, info.y);
+
+                label_infos += info;
             }
         }
 
@@ -230,7 +236,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
         }
     }
 
-    public void hide_windows () requires (gala_dbus != null) {
+    public void hide_window_labels () requires (gala_dbus != null) {
         try {
             gala_dbus.hide_monitor_labels ();
         } catch (Error e) {
@@ -326,6 +332,8 @@ public class Display.DisplaysOverlay : Gtk.Box {
         default_y_margin = (int) ((get_height () - max_height * current_ratio) / 2);
     }
 
+    // Only called by rescan_displays
+    //TODO Inline it
     private void add_output (Display.VirtualMonitor virtual_monitor) {
         current_width = 0;
         current_height = 0;
@@ -351,9 +359,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
             calculate_ratio ();
         });
 
-        if (!monitor_manager.is_mirrored && virtual_monitor.is_active) {
-            show_windows ();
-        }
+        // Can only show labels after scanning finished
     }
 
     private void set_as_primary (Display.VirtualMonitor new_primary) {

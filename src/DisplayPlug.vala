@@ -84,9 +84,9 @@ public class Display.Plug : Switchboard.Plug {
 
             stack.notify["visible-child"].connect (() => {
                 if (stack.visible_child == displays_view) {
-                    displays_view.displays_overlay.show_windows ();
+                    displays_view.displays_overlay.show_window_labels ();
                 } else {
-                    displays_view.displays_overlay.hide_windows ();
+                    displays_view.displays_overlay.hide_window_labels ();
                 }
             });
         }
@@ -96,14 +96,14 @@ public class Display.Plug : Switchboard.Plug {
 
     public override void shown () {
         if (stack.visible_child == displays_view) {
-            displays_view.displays_overlay.show_windows ();
+            displays_view.displays_overlay.show_window_labels ();
         } else {
-            displays_view.displays_overlay.hide_windows ();
+            displays_view.displays_overlay.hide_window_labels ();
         }
     }
 
     public override void hidden () {
-        displays_view.displays_overlay.hide_windows ();
+        displays_view.displays_overlay.hide_window_labels ();
     }
 
     public override void search_callback (string location) {
