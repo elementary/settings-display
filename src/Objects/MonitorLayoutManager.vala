@@ -50,7 +50,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
         save_layout (virtual_monitors);
     }
 
-    private void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
+    public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         //Build the layout variant
         var dict_builder = new VariantDict ();
         foreach (var monitor in virtual_monitors) {

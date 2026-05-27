@@ -254,7 +254,9 @@ public class Display.MonitorManager : GLib.Object {
             }
         }
 
-        layout_manager.arrange_monitors (virtual_monitors);
+        if (!is_mirrored) {
+            layout_manager.save_layout (virtual_monitors);
+        }
     }
 
     public void set_monitor_config () throws Error {
