@@ -51,8 +51,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
     }
 
     private void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-
-
         //Build the layout variant
         var dict_builder = new VariantBuilder (VariantType.DICTIONARY);
         foreach (var monitor in virtual_monitors) {
@@ -75,10 +73,32 @@ public class Display.MonitorLayoutManager : GLib.Object {
         }
 
         var layout_variant = dict_builder.end ();
+
         // Add or update the layouts setting
+        var save_key = get_layout_key (virtual_monitors);
+        dict_builder = new VariantBuilder (VariantType.DICTIONARY);
+        bool found = false;
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-        var layout_key = get_layout_key (virtual_monitors);
-        add_or_update_layout (layouts, layout_key, layout_variant);
+        for (var i = 0; i < layouts.n_children (); i++) {
+            var layout = layouts.get_child_value (i);
+            var layout_key = layout.get_child_value (0).get_string ();
+
+            if (layout_key == save_key) {
+                // Update existing layout
+                dict_builder.add_value (new Variant.dict_entry (save_key, layout_variant));
+                found = true;
+            } else {
+                // Keep existing layout
+                dict_builder.add_value (new Variant.dict_entry (layout_key, layout));
+            }
+        }
+
+        if (!found) {
+            // Add new layout
+            dict_builder.add_value (new Variant.dict_entry (save_key, layout_variant));
+        }
+
+        settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, dict_builder.end ());
     }
 
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
@@ -94,31 +114,31 @@ public class Display.MonitorLayoutManager : GLib.Object {
         return key.str;
     }
 
-    private void add_or_update_layout (GLib.Variant layouts, string key, GLib.Variant layout_variant) {
-        var layout_builder = new VariantBuilder (VariantType.DICTIONARY);
-        bool found = false;
+    // private void add_or_update_layout (GLib.Variant layouts, string key, GLib.Variant layout_variant) {
+    //     var layout_builder = new VariantBuilder (VariantType.DICTIONARY);
+    //     bool found = false;
 
-        for (var i = 0; i < layouts.n_children (); i++) {
-            var layout = layouts.get_child_value (i);
-            var layout_key = layout.get_child_value (0).get_string ();
+    //     for (var i = 0; i < layouts.n_children (); i++) {
+    //         var layout = layouts.get_child_value (i);
+    //         var layout_key = layout.get_child_value (0).get_string ();
 
-            if (layout_key == key) {
-                // Update existing layout
-                layout_builder.add_value (new Variant.dict_entry (key, layout_variant));
-                found = true;
-            } else {
-                // Keep existing layout
-                layout_builder.add_value (new Variant.dict_entry (layout_key, layout));
-            }
-        }
+    //         if (layout_key == key) {
+    //             // Update existing layout
+    //             layout_builder.add_value (new Variant.dict_entry (key, layout_variant));
+    //             found = true;
+    //         } else {
+    //             // Keep existing layout
+    //             layout_builder.add_value (new Variant.dict_entry (layout_key, layout));
+    //         }
+    //     }
 
-        if (!found) {
-            // Add new layout
-            layout_builder.add_value (new Variant.dict_entry (key, layout_variant));
-        }
+    //     if (!found) {
+    //         // Add new layout
+    //         layout_builder.add_value (new Variant.dict_entry (key, layout_variant));
+    //     }
 
-        settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, layout_builder.end ());
-    }
+    //     settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, layout_builder.end ());
+    // }
 
     private bool is_virtual_monitors_cloned (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         foreach (var monitor in virtual_monitors) {
