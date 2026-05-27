@@ -39,7 +39,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
     private int default_y_margin = 0;
 
     private unowned Display.MonitorManager monitor_manager;
-    private static GalaDBus gala_dbus = null;
+    private GalaDBus gala_dbus = null;
     public int active_displays { get; set; default = 0; }
 
     private List<DisplayWidget> display_widgets;
@@ -86,9 +86,22 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
         add_controller (drag_gesture);
 
-        monitor_manager = Display.MonitorManager.get_default ();
-        monitor_manager.monitors_changed.connect (() => rescan_displays ());
-        rescan_displays ();
+        GLib.Bus.get_proxy.begin<GalaDBus> (
+            GLib.BusType.SESSION,
+            "org.pantheon.gala.daemon",
+            "/org/pantheon/gala/daemon",
+            GLib.DBusProxyFlags.NONE,
+            null,
+            (obj, res) => {
+            try {
+                gala_dbus = GLib.Bus.get_proxy.end (res);
+                monitor_manager = Display.MonitorManager.get_default ();
+                monitor_manager.notify["virtual-monitor-number"].connect (() => rescan_displays ());
+                rescan_displays ();
+            } catch (GLib.Error e) {
+                critical (e.message);
+            }
+        });
 
         overlay.get_child_position.connect (get_child_position);
     }
@@ -102,20 +115,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
             display_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
-
-        GLib.Bus.get_proxy.begin<GalaDBus> (
-            GLib.BusType.SESSION,
-            "org.pantheon.gala.daemon",
-            "/org/pantheon/gala/daemon",
-            GLib.DBusProxyFlags.NONE,
-            null,
-            (obj, res) => {
-            try {
-                gala_dbus = GLib.Bus.get_proxy.end (res);
-            } catch (GLib.Error e) {
-                critical (e.message);
-            }
-        });
     }
 
     private double prev_dx = 0;
