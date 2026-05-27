@@ -21,24 +21,26 @@ public class Display.MonitorLayoutManager : GLib.Object {
     public void arrange_monitors (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         if (virtual_monitors.size == 1) {
             // If there's only one monitor, no need to arrange
+            // Cloned monitors only have one virtual monitor so will return here
             return;
         }
 
         var layout_key = get_layout_key (virtual_monitors);
         var layout = find_match_layout (layout_key);
-        var is_cloned = is_virtual_monitors_cloned (virtual_monitors);
+        // var is_cloned = is_virtual_monitors_cloned (virtual_monitors);
         var has_update = false;
 
         if (layout != null) {
             foreach (var virtual_monitor in virtual_monitors) {
-                var monitor_position = layout
-                    .find_position_by_id (virtual_monitor.monitors[0].hash.to_string ());
+                var monitor_position = layout.find_position_by_id (
+                    virtual_monitor.monitors[0].hash.to_string ()
+                );
 
                 if (monitor_position != null) {
                     if ((virtual_monitor.x != monitor_position.x
                         || virtual_monitor.y != monitor_position.y
-                        || virtual_monitor.transform != monitor_position.transform)
-                        && !is_cloned) {
+                        || virtual_monitor.transform != monitor_position.transform)) {
+
                         has_update = true;
                         break;
                     }
