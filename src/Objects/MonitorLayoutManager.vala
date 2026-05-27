@@ -26,22 +26,28 @@ public class Display.MonitorLayoutManager : GLib.Object {
         }
 
         var layout_key = get_layout_key (virtual_monitors);
-        var layout = find_match_layout (layout_key);
+        // Layouts format are 'a{sa{sa{sv}}}'
+        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
+        VariantDict? monitors = null;
+        if (layouts == null &&
+            layouts.lookup (layout_key, "a{sa{sv}}", out monitors) &&
+            monitors != null) {
 
-        if (layout != null) {
             foreach (var virtual_monitor in virtual_monitors) {
                 DisplayTransform transform;
                 int x, y;
-                if (layout.lookup (virtual_monitor.id, "(iiu)", out x, out y, out transform)) {
+                if (monitors.lookup (virtual_monitor.id, "(iiu)", out x, out y, out transform)) {
                     virtual_monitor.x = x;
                     virtual_monitor.y = y;
                     virtual_monitor.transform = transform;
                 }
             }
-        } else {
-            // If no layout found, we save the current layout to use later
-            save_layout (virtual_monitors);
+
+            return;
         }
+
+        // If no layout found, we save the current layout to use later
+        save_layout (virtual_monitors);
     }
 
     private void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
@@ -51,19 +57,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
 
         add_or_update_layout (layouts, key, layout_variant);
-    }
-
-    private VariantDict? find_match_layout (string key) {
-        // Layouts format are 'a{sa{sa{sv}}}'
-        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-
-        if (layouts == null || layouts.n_children () == 0) {
-            return null; // No layouts saved
-        }
-
-        VariantDict? monitors = null;
-        layouts.lookup (key, "a{sa{sv}}", out monitors);
-        return monitors;
     }
 
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
