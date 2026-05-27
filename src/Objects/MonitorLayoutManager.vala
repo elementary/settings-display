@@ -27,7 +27,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
         var layout_key = get_layout_key (virtual_monitors);
         var layout = find_match_layout (layout_key);
-        // var is_cloned = is_virtual_monitors_cloned (virtual_monitors);
         var has_update = false;
 
         if (layout != null) {
@@ -61,7 +60,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
         }
     }
 
-    public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
+    private void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         var key = get_layout_key (virtual_monitors);
         var layout_variant = build_layout_variant (virtual_monitors);
 
@@ -70,7 +69,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
         add_or_update_layout (layouts, key, layout_variant);
     }
 
-    public MonitorLayoutProfile? find_match_layout (string key) {
+    private MonitorLayoutProfile? find_match_layout (string key) {
         // Layouts format are 'a{sa{sa{sv}}}'
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
 
