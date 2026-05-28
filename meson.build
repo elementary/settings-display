@@ -31,3 +31,4 @@ config_file = configure_file(
 subdir('data')
 subdir('src')
 subdir('po')
+subdir('tests')
