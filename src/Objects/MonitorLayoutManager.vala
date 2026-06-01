@@ -99,14 +99,4 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
         return key.str;
     }
-
-    private bool is_virtual_monitors_cloned (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-        foreach (var monitor in virtual_monitors) {
-            if (monitor.x != 0 || monitor.y != 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
