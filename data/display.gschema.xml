@@ -11,6 +11,7 @@
         Setting: Dictionary of layouts - key is based on a combination of monitor ids
         Layout: Dictionary of monitors - key is monitor identifier
         Monitor: Dictionary of property values - key is property name
+        Property keys: "x", "y", "transform", "primary"
       </description>
     </key>
 
