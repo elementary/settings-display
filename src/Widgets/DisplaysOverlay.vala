@@ -97,6 +97,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
                 gala_dbus = GLib.Bus.get_proxy.end (res);
                 monitor_manager = Display.MonitorManager.get_default ();
                 monitor_manager.notify["virtual-monitor-number"].connect (() => rescan_displays ());
+                monitor_manager.monitors_changed.connect (() => rescan_displays ());
                 rescan_displays ();
             } catch (GLib.Error e) {
                 critical (e.message);
@@ -185,7 +186,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
     public void rescan_displays () {
         scanning = true;
-
         display_widgets.@foreach ((display_widget) => {
             overlay.remove_overlay (display_widget);
             display_widget.destroy ();
