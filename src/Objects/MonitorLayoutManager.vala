@@ -28,22 +28,32 @@ public class Display.MonitorLayoutManager : GLib.Object {
         var layout_key = get_layout_key (virtual_monitors);
         // Layouts format are 'a{sa{sa{sv}}}'
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-        VariantDict? monitors = null;
-        if (layouts == null &&
-            layouts.lookup (layout_key, "a{sa{sv}}", out monitors) &&
-            monitors != null) {
-
+        Variant? monitors = null;
+        if (layouts != null) {
+            monitors = layouts.lookup_value (layout_key, VariantType.VARDICT);
             foreach (var virtual_monitor in virtual_monitors) {
-                DisplayTransform transform;
-                int x, y;
-                if (monitors.lookup (virtual_monitor.id, "(iiu)", out x, out y, out transform)) {
-                    virtual_monitor.x = x;
-                    virtual_monitor.y = y;
-                    virtual_monitor.transform = transform;
+                Variant? props = monitors.lookup_value (virtual_monitor.id, VariantType.VARDICT);
+                if (props != null) {
+                    int32 x = 0, y = 0;
+                    uint32 t = 0;
+                    if (props.lookup ("x", "i", out x) &&
+                        props.lookup ("y", "i", out y) &&
+                        props.lookup ("transform", "u", out t)) {
+
+                        virtual_monitor.x = x;
+                        virtual_monitor.y = y;
+                        virtual_monitor.transform = t;
+                     } else {
+                         warning ("property setting missing for monitor %s", virtual_monitor.get_display_name ());
+                     }
+                } else {
+                    warning ("no property dictionary found for monitor.id %s", virtual_monitor.get_display_name ());
                 }
             }
 
             return;
+        } else {
+            warning ("layout key %s not found", layout_key);
         }
 
         // If no layout found, we save the current layout to use later
@@ -51,30 +61,31 @@ public class Display.MonitorLayoutManager : GLib.Object {
     }
 
     public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-        //Build the layout variant
-        //NOTE The variant yielded by VariantDict.end () always has type "a{sv}"
-        var dict_builder = new VariantDict ();
+        var save_key = get_layout_key (virtual_monitors);
+
+        var monitor_dict = new VariantDict ();
         foreach (var monitor in virtual_monitors) {
-            var props_builder = new VariantDict ();
+            var props_dict = new VariantDict ();
             // We save three properties for now, may want to save more later
-            props_builder.insert ("x", "v", new Variant.int32 (monitor.x));
-            props_builder.insert ("y", "v", new Variant.int32 (monitor.y));
-            props_builder.insert ("transform", "v", new Variant.uint32 (monitor.transform));
-            var props_variant = props_builder.end ();
-            debug (props_variant.print (true));
-            dict_builder.insert_value (monitor.id, props_variant);
+            props_dict.insert_value ("x", new Variant.int32 (monitor.x));
+            props_dict.insert_value ("y", new Variant.int32 (monitor.y));
+            props_dict.insert_value ("transform", new Variant.uint32 (monitor.transform));
+            monitor_dict.insert_value (monitor.id, props_dict.end ());
         }
 
-        var layout_variant = dict_builder.end ();
-
         // Add or update the layouts setting
-        var save_key = get_layout_key (virtual_monitors);
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-        dict_builder = new VariantDict (layouts);
-        dict_builder.insert_value (save_key, layout_variant);
+        var layouts_dict = new VariantDict (layouts);
+        layouts_dict.insert_value (save_key, monitor_dict.end ());
 
         // Save to settings
-        settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, dict_builder.end ());
+        //NOTE The variant yielded by VariantDict.end () always has type "a{sv}"
+        settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, layouts_dict.end ());
+    }
+
+    private void save_previous_layout () {
+        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
+        settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
     }
 
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
