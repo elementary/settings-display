@@ -52,6 +52,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
     public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         //Build the layout variant
+        //NOTE The variant yielded by VariantDict.end () always has type "a{sv}"
         var dict_builder = new VariantDict ();
         foreach (var monitor in virtual_monitors) {
             var props_builder = new VariantDict ();
