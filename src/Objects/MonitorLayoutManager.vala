@@ -87,11 +87,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
         settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, layouts_dict.end ());
     }
 
-    private void save_previous_layout () {
-        var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-        settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
-    }
-
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         // Generate a unique key based on the virtual monitors' monitors hashes
         var key = new StringBuilder ();
