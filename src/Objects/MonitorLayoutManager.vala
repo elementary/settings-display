@@ -71,7 +71,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
         var monitor_dict = new VariantDict ();
         foreach (var monitor in virtual_monitors) {
             var props_dict = new VariantDict ();
-            // We save three properties for now, may want to save more later
             props_dict.insert_value ("x", new Variant.int32 (monitor.x));
             props_dict.insert_value ("y", new Variant.int32 (monitor.y));
             props_dict.insert_value ("transform", new Variant.uint32 (monitor.transform));
@@ -92,6 +91,9 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         // Generate a unique key based on the virtual monitors' monitors hashes
+        //NOTE The key depends on the order of the list which will change depending on whether monitors are
+        // active or not (and possibly on the order they were connected).
+        //TODO Consider whether a more controlled key is needed
         var key = new StringBuilder ();
 
         foreach (var virtual_monitor in virtual_monitors) {
