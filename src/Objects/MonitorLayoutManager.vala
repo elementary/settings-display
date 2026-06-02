@@ -36,16 +36,18 @@ public class Display.MonitorLayoutManager : GLib.Object {
                 if (props != null) {
                     int32 x = 0, y = 0;
                     uint32 t = 0;
-                    bool p = false;
+                    bool p = false, e = false;
                     if (props.lookup ("x", "i", out x) &&
                         props.lookup ("y", "i", out y) &&
                         props.lookup ("transform", "u", out t) &&
-                        props.lookup ("primary", "b", out p)) {
+                        props.lookup ("primary", "b", out p) &&
+                        props.lookup ("enabled", "b", out e)) {
 
                         virtual_monitor.x = x;
                         virtual_monitor.y = y;
                         virtual_monitor.transform = t;
                         virtual_monitor.primary = p;
+                        virtual_monitor.is_active = e;
                      } else {
                          warning ("property setting missing for monitor %s", virtual_monitor.get_display_name ());
                      }
@@ -74,6 +76,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
             props_dict.insert_value ("y", new Variant.int32 (monitor.y));
             props_dict.insert_value ("transform", new Variant.uint32 (monitor.transform));
             props_dict.insert_value ("primary", new Variant.boolean (monitor.primary));
+            props_dict.insert_value ("enabled", new Variant.boolean (monitor.is_active));
             monitor_dict.insert_value (monitor.id, props_dict.end ());
         }
 
