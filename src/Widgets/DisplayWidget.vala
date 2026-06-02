@@ -102,6 +102,10 @@ public class Display.DisplayWidget : Gtk.Box {
         var label = new Gtk.Label (virtual_monitor_name) {
             halign = CENTER,
             valign = CENTER,
+            lines = 3,
+            ellipsize = END,
+            wrap = true,
+            wrap_mode = WORD,
             hexpand = true,
             vexpand = true
         };
@@ -296,7 +300,7 @@ public class Display.DisplayWidget : Gtk.Box {
         var grid = new Gtk.Grid ();
         grid.attach (primary_image, 0, 0);
         grid.attach (toggle_settings, 2, 0);
-        grid.attach (label, 0, 0, 3, 2);
+        grid.attach (label, 0, 1, 3, 1);
 
         append (grid);
 
@@ -314,8 +318,12 @@ public class Display.DisplayWidget : Gtk.Box {
 
             if (use_switch.active) {
                 remove_css_class ("disabled");
+                remove_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+                remove_css_class (Granite.STYLE_CLASS_SMALL_LABEL);
             } else {
                 add_css_class ("disabled");
+                add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+                add_css_class (Granite.STYLE_CLASS_SMALL_LABEL);
             }
 
             configuration_changed ();
