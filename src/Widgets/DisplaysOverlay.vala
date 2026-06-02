@@ -43,6 +43,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
     public int active_displays { get; set; default = 0; }
 
     private List<DisplayWidget> display_widgets;
+    private List<DisplayWidget> inactive_display_widgets;
     private DisplayWidget? dragging_display = null;
     public bool only_display {
         get {
@@ -78,6 +79,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
         append (overlay);
 
         display_widgets = new List<DisplayWidget> ();
+        inactive_display_widgets = new List<DisplayWidget> ();
 
         drag_gesture = new Gtk.GestureDrag ();
         drag_gesture.drag_begin.connect (on_drag_begin);
@@ -179,6 +181,12 @@ public class Display.DisplaysOverlay : Gtk.Box {
             allocation.width = x_end - x_start;
             allocation.height = y_end - y_start;
             return true;
+        } else { // Assume inactive display for now
+            allocation.x = 0;
+            allocation.y = 0;
+            allocation.width = 48;
+            allocation.height = 24;
+            return true;
         }
 
         return false;
@@ -193,9 +201,20 @@ public class Display.DisplaysOverlay : Gtk.Box {
         });
 
         active_displays = 0;
+        inactive_display_widgets.@foreach ((display_widget) => {
+            overlay.remove_overlay (display_widget);
+            display_widget.destroy ();
+            inactive_display_widgets.remove (display_widget);
+        });
+
+        active_displays = 0;
         foreach (var virtual_monitor in monitor_manager.virtual_monitors) {
-            active_displays += virtual_monitor.is_active ? 1 : 0;
-            add_output (virtual_monitor);
+            if (virtual_monitor.is_active) {
+                active_displays++;
+                add_output (virtual_monitor);
+            } else {
+                add_inactive (virtual_monitor);
+            }
         }
 
         show_windows ();
@@ -345,12 +364,18 @@ public class Display.DisplaysOverlay : Gtk.Box {
         });
 
         display_widget.configuration_changed.connect (check_configuration_change);
+
         display_widget.active_changed.connect (() => {
             active_displays += virtual_monitor.is_active ? 1 : -1;
             change_active_displays_sensitivity ();
             check_configuration_change ();
             calculate_ratio ();
         });
+    }
+
+    private void add_inactive (Display.VirtualMonitor virtual_monitor) {
+        var inactive_widget = new Gtk.Label ("Inactive");
+        overlay.add_overlay (inactive_widget);
     }
 
     private void set_as_primary (Display.VirtualMonitor new_primary) {
