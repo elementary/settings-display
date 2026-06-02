@@ -35,14 +35,16 @@ public class Display.DisplaysOverlay : Gtk.Box {
     private double current_ratio = 1.0f;
     private int current_width = 0;
     private int current_height = 0;
-    private int default_x_margin = 0;
     private int default_y_margin = 0;
+    private int default_x_margin = 0;
 
     private unowned Display.MonitorManager monitor_manager;
     private GalaDBus gala_dbus = null;
     public int active_displays { get; set; default = 0; }
+    private int inactive_displays = 0;
 
     private List<DisplayWidget> display_widgets;
+
     private DisplayWidget? dragging_display = null;
     public bool only_display {
         get {
@@ -159,35 +161,34 @@ public class Display.DisplaysOverlay : Gtk.Box {
     // virtual monitor geometry and any offsets when dragging.
     private bool get_child_position (Gtk.Widget widget, out Gdk.Rectangle allocation) {
         allocation = Gdk.Rectangle ();
-        if (current_width != get_width () ||
-            current_height != get_height ()) {
+        if ((current_width != (get_width () - inactive_displays > 0 ? 96 : 0)) ||
+            (current_height != get_height ())) {
 
             calculate_ratio ();
         }
 
-        if (!(widget is DisplayWidget)) {
-            return false;
-        }
-
-        if (((DisplayWidget)widget).virtual_monitor.is_active) {
-            var display_widget = (DisplayWidget) widget;
-
-            int x, y, width, height;
-            display_widget.get_virtual_monitor_geometry (out x, out y, out width, out height);
-            var x_start = (int) Math.round (x * current_ratio);
-            var y_start = (int) Math.round (y * current_ratio);
-            var x_end = (int) Math.round ((x + width) * current_ratio);
-            var y_end = (int) Math.round ((y + height) * current_ratio);
-            allocation.x = default_x_margin + x_start;
-            allocation.y = default_y_margin + y_start;
-            allocation.width = x_end - x_start;
-            allocation.height = y_end - y_start;
-        } else {
+        if (!(widget is DisplayWidget) || !((DisplayWidget)widget).virtual_monitor.is_active) {
+            int n_inactive = widget.get_data<int> ("n-inactive");
+            warning ("got inactive widget n %i", n_inactive);
             allocation.x = 0;
-            allocation.y = 0;
             allocation.width = 96;
             allocation.height = 96;
+            allocation.y = n_inactive * allocation.height;
+            return true;
         }
+
+
+        int x, y, width, height;
+        var display_widget = (DisplayWidget) widget;
+        display_widget.get_virtual_monitor_geometry (out x, out y, out width, out height);
+        var x_start = (int) Math.round (x * current_ratio);
+        var y_start = (int) Math.round (y * current_ratio);
+        var x_end = (int) Math.round ((x + width) * current_ratio);
+        var y_end = (int) Math.round ((y + height) * current_ratio);
+        allocation.x = default_x_margin + x_start;
+        allocation.y = default_y_margin + y_start;
+        allocation.width = x_end - x_start;
+        allocation.height = y_end - y_start;
 
         return true;
     }
@@ -201,6 +202,8 @@ public class Display.DisplaysOverlay : Gtk.Box {
         });
 
         active_displays = 0;
+        inactive_displays = 0;
+
         foreach (var virtual_monitor in monitor_manager.virtual_monitors) {
             if (virtual_monitor.is_active) {
                 active_displays++;
@@ -251,14 +254,18 @@ public class Display.DisplaysOverlay : Gtk.Box {
     }
 
     private void change_active_displays_sensitivity () {
+
     }
 
     private void check_configuration_change () {
         // check if valid (connected)
         int active_display_count = 0;
+        int inactive_displays = 0;
         foreach (unowned var dw in display_widgets) {
             if (dw.virtual_monitor.is_active) {
                 active_display_count++;
+            } else {
+                inactive_displays++;
             }
         }
 
@@ -317,10 +324,12 @@ public class Display.DisplaysOverlay : Gtk.Box {
         int added_height = 0;
         int max_width = int.MIN;
         int max_height = int.MIN;
+        int min_x = int.MAX;
+        int min_y = int.MAX;
 
         foreach (unowned var display_widget in display_widgets) {
             if (!display_widget.virtual_monitor.is_active) {
-                continue; //NOTE Should we include inactive to ensure room for inactive widget?
+                continue;
             }
 
             int x, y, width, height;
@@ -330,16 +339,28 @@ public class Display.DisplaysOverlay : Gtk.Box {
             added_height += height;
             max_width = int.max (max_width, x + width);
             max_height = int.max (max_height, y + height);
+            min_x = int.min (min_x, x);
+            min_y = int.min (min_y, y);
         }
 
+        // Origin may not be at (0, 0) while a monitor is marked inactive but not yet applied
+        max_width -= min_x;
+        max_height -= min_y;
+
         current_width = get_width ();
+        current_width -= inactive_displays > 0 ? 96 : 0;
         current_height = get_height ();
         current_ratio = double.min (
-            (double) (get_width () - 24) / (double) added_width,
-            (double) (get_height () - 24) / (double) added_height
+            (double) (current_width - 24) / (double) added_width,
+            (double) (current_height - 24) / (double) added_height
         );
-        default_x_margin = (int) ((get_width () - max_width * current_ratio) / 2);
-        default_y_margin = (int) ((get_height () - max_height * current_ratio) / 2);
+
+
+        default_x_margin = (int) (current_width - (max_width * current_ratio)) / 2;
+        default_x_margin += inactive_displays > 0 ? 96 : 0; // Allow for width of inactive widgets
+        default_x_margin -= (int) (min_x * current_ratio); // Allow for origin not being at 0, 0
+        default_y_margin = (int) ((current_height - (max_height * current_ratio)) / 2);
+        default_y_margin -= (int) (min_y * current_ratio); // Allow for origin not being at 0, 0
     }
 
     private void add_output (Display.VirtualMonitor virtual_monitor) {
@@ -361,8 +382,21 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
         display_widget.configuration_changed.connect (check_configuration_change);
 
+        if (!display_widget.virtual_monitor.is_active) {
+            inactive_displays++;
+            display_widget.set_data<int> ("n-inactive", inactive_displays);
+        }
         display_widget.active_changed.connect (() => {
-            active_displays += virtual_monitor.is_active ? 1 : -1;
+            if (virtual_monitor.is_active) {
+                inactive_displays--;
+                display_widget.steal_data<int> ("n-inactive");
+                active_displays++;
+            } else {
+                inactive_displays++;
+                display_widget.set_data<int> ("n-inactive", inactive_displays);
+                active_displays--;
+            }
+
             change_active_displays_sensitivity ();
             check_configuration_change ();
             calculate_ratio ();
