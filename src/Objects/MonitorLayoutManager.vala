@@ -98,10 +98,13 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
         foreach (var virtual_monitor in virtual_monitors) {
             foreach (var monitor in virtual_monitor.monitors) {
+                key.append ("-");
                 key.append (virtual_monitor.id);
+                key.append (virtual_monitor.is_active ? "" : ":DISABLED");
             }
         }
 
+        key.erase (0, 1);
         return key.str;
     }
 }
