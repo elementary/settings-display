@@ -397,6 +397,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
             }
 
             monitor_manager.on_virtual_monitor_active_changed (display_widget.virtual_monitor);
+            configuration_changed (true);
         });
     }
 
