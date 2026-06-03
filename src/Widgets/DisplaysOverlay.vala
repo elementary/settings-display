@@ -35,8 +35,8 @@ public class Display.DisplaysOverlay : Gtk.Box {
     private double current_ratio = 1.0f;
     private int current_width = 0;
     private int current_height = 0;
-    private int default_y_margin = 0;
     private int default_x_margin = 0;
+    private int default_y_margin = 0;
 
     private unowned Display.MonitorManager monitor_manager;
     private GalaDBus gala_dbus = null;
