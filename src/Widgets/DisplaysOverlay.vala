@@ -397,9 +397,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
                 active_displays--;
             }
 
-            change_active_displays_sensitivity ();
-            check_configuration_change ();
-            calculate_ratio ();
+            monitor_manager.on_virtual_monitor_active_changed (display_widget.virtual_monitor);
         });
     }
 
