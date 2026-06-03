@@ -173,7 +173,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
             allocation.x = 0;
             allocation.width = 96;
             allocation.height = 96;
-            allocation.y = n_inactive * allocation.height;
+            allocation.y = (n_inactive - 1) * allocation.height;
             return true;
         }
 
