@@ -328,6 +328,7 @@ public class Display.DisplayWidget : Gtk.Box {
 
             configuration_changed ();
             active_changed ();
+            popover.popdown ();
         });
 
         if (!virtual_monitor.is_active) {
