@@ -169,7 +169,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
         if (!(widget is DisplayWidget) || !((DisplayWidget)widget).virtual_monitor.is_active) {
             int n_inactive = widget.get_data<int> ("n-inactive");
-            warning ("got inactive widget n %i", n_inactive);
             allocation.x = 0;
             allocation.width = 96;
             allocation.height = 96;
