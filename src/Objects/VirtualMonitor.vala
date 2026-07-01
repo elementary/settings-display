@@ -200,7 +200,11 @@ public class Display.VirtualMonitor : GLib.Object {
             }
         }
 
-        scale = current_mode.preferred_scale;
+        // Set default scale if the current scale is not present anymore in the available ones
+        if (!is_scale_available ()) {
+            info ("Previous scaling is not present in the new availables scales, defaulting to the preferred one\n");
+            scale = current_mode.preferred_scale;
+        }
     }
 
     public static string generate_id_from_monitors (MutterReadMonitorInfo[] infos) {
@@ -219,5 +223,19 @@ public class Display.VirtualMonitor : GLib.Object {
      */
     private int apply_current_scale (int dimension) {
         return (int) Math.ceil (dimension / scale);
+    }
+
+    /**
+     * Check if the current scale value is available in current available scales
+     * @return true if the current scale value is present in available_scales_store, false otherwise
+     */
+    private bool is_scale_available () {
+        for (uint i = available_scales_store.get_n_items (); i-- > 0; ) {
+            var new_scale = (Scale) available_scales_store.get_item (i);
+            if (new_scale != null && scale == new_scale.scale) {
+                return true;
+            }
+        }
+        return false;
     }
 }

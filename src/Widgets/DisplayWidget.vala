@@ -423,7 +423,6 @@ public class Display.DisplayWidget : Gtk.Box {
                 refresh_list_store.get_value (iter, RefreshColumns.VALUE, out val);
                 Display.MonitorMode new_mode = (Display.MonitorMode) val;
                 virtual_monitor.set_current_mode (new_mode);
-                rotation_combobox.set_active (0);
                 configuration_changed ();
                 check_position ();
             }
