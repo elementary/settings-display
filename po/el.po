@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2020-10-01 21:14+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
-"Language-Team: Greek <https://l10n.elementary.io/projects/switchboard/"
-"switchboard-plug-display/el/>\n"
+"PO-Revision-Date: 2026-07-10 12:01+0000\n"
+"Last-Translator: Jim Spentzos <jimspentzos2000@gmail.com>\n"
+"Language-Team: Greek <https://l10n.elementaryos.org/projects/settings/"
+"display/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 2026.5\n"
 "X-Launchpad-Export-Date: 2017-02-23 06:46+0000\n"
 
 #: src/DisplayPlug.vala:39 src/DisplayPlug.vala:51
@@ -26,22 +26,21 @@ msgstr "Οθόνες"
 
 #: src/DisplayPlug.vala:40
 msgid "Configure resolution and position of monitors and projectors"
-msgstr "Ρύθμιση ανάλυσης και θέσης  οθονών και προβολέων"
+msgstr "Ρύθμιση της ανάλυσης και της θέσης οθονών και προβολέων"
 
 #: src/DisplayPlug.vala:56 src/DisplayPlug.vala:121 src/DisplayPlug.vala:122
 #: src/DisplayPlug.vala:123 src/Views/NightLightView.vala:8
 msgid "Night Light"
-msgstr ""
+msgstr "Νυχτερινός φωτισμός"
 
 #: src/DisplayPlug.vala:62 src/DisplayPlug.vala:124 src/DisplayPlug.vala:125
 #: src/DisplayPlug.vala:126 src/DisplayPlug.vala:127
 msgid "Filters"
-msgstr ""
+msgstr "Φίλτρα"
 
 #: src/DisplayPlug.vala:116
-#, fuzzy
 msgid "Screen Resolution"
-msgstr "Ανάλυση:"
+msgstr "Ανάλυση οθόνης"
 
 #: src/DisplayPlug.vala:117
 #, fuzzy
@@ -50,12 +49,11 @@ msgstr "Είναι πρωταρχική οθόνη"
 
 #: src/DisplayPlug.vala:118
 msgid "Screen mirroring"
-msgstr ""
+msgstr "Κατοπτρισμός οθόνης"
 
 #: src/DisplayPlug.vala:119 src/Widgets/DisplayWidget.vala:133
-#, fuzzy
 msgid "Screen Rotation"
-msgstr "Περιστροφή:"
+msgstr "Περιστροφή οθόνης"
 
 #: src/DisplayPlug.vala:120 src/Widgets/DisplayWidget.vala:261
 msgid "Scaling factor"
@@ -79,16 +77,15 @@ msgstr ""
 
 #: src/DisplayPlug.vala:126 src/Views/FiltersView.vala:129
 msgid "Grayscale"
-msgstr ""
+msgstr "Κλίμακα του γκρι"
 
 #: src/DisplayPlug.vala:127
 msgid "Monochrome"
 msgstr ""
 
 #: src/DisplayPlug.vala:130
-#, fuzzy
 msgid "Rotation lock"
-msgstr "Περιστροφή:"
+msgstr "Κλείδωμα περιστροφής"
 
 #: src/Interfaces/MutterDisplayConfig.vala:58
 msgid "Clockwise"
@@ -161,15 +158,15 @@ msgstr "Κατοπτρισμός οθόνης:"
 
 #: src/Views/DisplaysView.vala:35
 msgid "Scaling factor:"
-msgstr ""
+msgstr "Συντελεστής κλίμακας:"
 
 #: src/Views/DisplaysView.vala:38
 msgid "LoDPI"
-msgstr ""
+msgstr "LoDPI"
 
 #: src/Views/DisplaysView.vala:39 src/Views/DisplaysView.vala:40
 msgid "HiDPI"
-msgstr ""
+msgstr "HiDPI"
 
 #: src/Views/DisplaysView.vala:51
 msgid "Detect Displays"
@@ -180,9 +177,8 @@ msgid "Apply"
 msgstr "Εφαρμογή"
 
 #: src/Views/DisplaysView.vala:84
-#, fuzzy
 msgid "Rotation Lock:"
-msgstr "Περιστροφή:"
+msgstr "Κλείδωμα περιστροφής:"
 
 #: src/Views/DisplaysView.vala:157
 msgid "Failed to apply display settings"
@@ -204,43 +200,43 @@ msgstr ""
 
 #: src/Views/FiltersView.vala:17
 msgid "Red/Green"
-msgstr ""
+msgstr "Κόκκινο/Πράσινο"
 
 #: src/Views/FiltersView.vala:17 src/Views/FiltersView.vala:37
 msgid "Protanopia"
-msgstr ""
+msgstr "Πρωτανοπία"
 
 #: src/Views/FiltersView.vala:37
 msgid "Red/Green — High Contrast"
-msgstr ""
+msgstr "Κόκκινο/Πράσινο — Υψηλή αντίθεση"
 
 #: src/Views/FiltersView.vala:54
 msgid "Green/Red"
-msgstr ""
+msgstr "Πράσινο/Κόκκινο"
 
 #: src/Views/FiltersView.vala:54 src/Views/FiltersView.vala:74
 msgid "Deuteranopia"
-msgstr ""
+msgstr "Δευτερανοπία"
 
 #: src/Views/FiltersView.vala:74
 msgid "Green/Red — High Contrast"
-msgstr ""
+msgstr "Πράσινο/Κόκκινο — Υψηλή αντίθεση"
 
 #: src/Views/FiltersView.vala:91
 msgid "Blue/Yellow"
-msgstr ""
+msgstr "Μπλε/Κίτρινο"
 
 #: src/Views/FiltersView.vala:91
 msgid "Tritanopia"
-msgstr ""
+msgstr "Τριτανοπία"
 
 #: src/Views/FiltersView.vala:116
 msgid "Less Assistance"
-msgstr ""
+msgstr "Λιγότερη βοήθεια"
 
 #: src/Views/FiltersView.vala:117
 msgid "More Assistance"
-msgstr ""
+msgstr "Περισσότερη βοήθεια"
 
 #: src/Views/FiltersView.vala:130
 msgid ""
@@ -249,29 +245,27 @@ msgstr ""
 
 #: src/Views/FiltersView.vala:145
 msgid "More Color"
-msgstr ""
+msgstr "Περισσότερο χρώμα"
 
 #: src/Views/FiltersView.vala:146
 msgid "Less Color"
-msgstr ""
+msgstr "Λιγότερο χρώμα"
 
 #: src/Widgets/DisplayWidget.vala:109
 msgid "Use This Display"
-msgstr "Χρήση Αυτής της Οθόνης"
+msgstr "Χρήση αυτής της οθόνης"
 
 #: src/Widgets/DisplayWidget.vala:119
-#, fuzzy
-#| msgid "Resolution:"
 msgid "Resolution"
-msgstr "Ανάλυση:"
+msgstr "Ανάλυση"
 
 #: src/Widgets/DisplayWidget.vala:147
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Ρυθμός ανανέωσης"
 
 #: src/Widgets/DisplayWidget.vala:219
 msgid "Other…"
-msgstr ""
+msgstr "Άλλο…"
 
 #: src/Widgets/DisplayWidget.vala:293
 msgid "Configure display"
@@ -280,15 +274,15 @@ msgstr "Ρύθμιση οθόνης"
 #: src/Widgets/DisplayWidget.vala:490
 #, c-format
 msgid "%g Hz"
-msgstr ""
+msgstr "%g Hz"
 
 #: src/Widgets/DisplayWidget.vala:557
 msgid "Is the primary display"
-msgstr "Είναι η αρχική οθόνη"
+msgstr "Είναι η κύρια οθόνη"
 
 #: src/Widgets/DisplayWidget.vala:560
 msgid "Set as primary display"
-msgstr "Ορισμός ως αρχικής οθόνης"
+msgstr "Ορισμός ως κύρια οθόνη"
 
 #, fuzzy
 #~| msgid "Use This Display:"
