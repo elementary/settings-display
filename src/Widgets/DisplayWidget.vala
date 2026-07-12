@@ -239,22 +239,10 @@ public class Display.DisplayWidget : Gtk.Box {
 
         populate_refresh_rates ();
 
-        var scale_drop_down_factory = new Gtk.SignalListItemFactory ();
-        scale_drop_down_factory.setup.connect ((obj) => {
-            var list_item = (Gtk.ListItem) obj;
-            list_item.child = new Gtk.Label (null) { xalign = 0 };
-        });
-        scale_drop_down_factory.bind.connect ((obj) => {
-            var list_item = (Gtk.ListItem) obj;
-            var item = (VirtualMonitor.Scale) list_item.item;
-            var scale_label = (Gtk.Label) list_item.child;
-            scale_label.label = item.string_representation;
-        });
-
-        scale_drop_down = new Gtk.DropDown (virtual_monitor.available_scales, null) {
+        var scale_name_expression = new Gtk.PropertyExpression (typeof (VirtualMonitor.Scale), null, "string-representation");
+        scale_drop_down = new Gtk.DropDown (virtual_monitor.available_scales, scale_name_expression) {
             margin_start = 12,
             margin_end = 12,
-            factory = scale_drop_down_factory
         };
         virtual_monitor.available_scales.bind_property ("selected", scale_drop_down, "selected", BIDIRECTIONAL | SYNC_CREATE);
 
