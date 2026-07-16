@@ -1,0 +1,19 @@
+<schemalist>
+  <schema id="io.elementary.settings.display" path="/io/elementary/settings/display/">
+
+    <key name="preferred-display-layouts" type="a{sv}">
+      <default>{}</default>
+      <summary>Preferred display layouts</summary>
+      <description>
+        Each profile contains a unique identifier and a list of monitors, with their respective position (x, y) and other properties such as transformation (e.g., rotation).
+        This allows the system to restore or suggest preferred monitor arrangements and settings when displays are connected or configurations change.
+        The expanded variant type is "a{sa{sa{sv}}}"
+        Setting: Dictionary of layouts - key is based on a combination of monitor ids
+        Layout: Dictionary of monitors - key is monitor identifier
+        Monitor: Dictionary of property values - key is property name
+        Property keys: "x", "y", "transform", "primary", "is-active"
+      </description>
+    </key>
+
+  </schema>
+</schemalist>
