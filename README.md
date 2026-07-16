@@ -26,3 +26,13 @@ Run `meson` to configure the build environment and then `ninja` to build
 To install, use `ninja install`
 
     ninja install
+
+## Headless tests (no GUI required)
+
+This repository now includes a small, headless test suite that exercises the core layout logic (overlap resolution, edge adjacency, and origin normalization) without requiring GTK or a running compositor. This helps validate behavior even on single‑monitor or headless environments.
+
+To run tests after configuring the build directory:
+
+    meson test -C build --print-errorlogs
+
+You should see the `layout_logic` test pass. These tests simulate 3+ displays, overlap scenarios, and ensure the layout can be normalized and stays connected without crashes.
