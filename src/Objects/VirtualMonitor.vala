@@ -32,12 +32,21 @@ public class Display.VirtualMonitor : GLib.Object {
         }
     }
 
+    public class Transform : GLib.Object {
+        public DisplayTransform transform { get; construct; }
+        public string string_representation { get; construct; }
+
+        public Transform (DisplayTransform transform) {
+            Object (transform: transform, string_representation: transform.to_string ());
+        }
+    }
+
     public int x { get; set; }
     public int y { get; set; }
     public int current_x { get; set; }
     public int current_y { get; set; }
     public Gtk.SingleSelection available_scales { get; construct; }
-    public DisplayTransform transform { get; set; }
+    public Gtk.SingleSelection available_transforms { get; construct; }
     public bool primary { get; set; }
     public Gee.LinkedList<Display.Monitor> monitors { get; construct; }
 
@@ -57,6 +66,11 @@ public class Display.VirtualMonitor : GLib.Object {
             }
             critical ("Unsupported scale %f for current mode", value);
         }
+    }
+
+    public DisplayTransform transform {
+        get { return (DisplayTransform) available_transforms.selected; }
+        set { available_transforms.selected = value; }
     }
 
     /**
@@ -103,6 +117,15 @@ public class Display.VirtualMonitor : GLib.Object {
 
         available_scales_store = new ListStore (typeof (Scale));
         available_scales = new Gtk.SingleSelection (available_scales_store);
+
+        var available_transforms_store = new ListStore (typeof (Transform));
+        available_transforms = new Gtk.SingleSelection (available_transforms_store) {
+            autoselect = true
+        };
+
+        for (int i = 0; i <= DisplayTransform.FLIPPED_ROTATION_270; i++) {
+            available_transforms_store.append (new Transform ((DisplayTransform) i));
+        }
     }
 
     public unowned string get_display_name () {
