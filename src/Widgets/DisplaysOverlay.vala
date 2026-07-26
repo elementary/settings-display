@@ -97,6 +97,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
                 gala_dbus = GLib.Bus.get_proxy.end (res);
                 monitor_manager = Display.MonitorManager.get_default ();
                 monitor_manager.notify["virtual-monitor-number"].connect (() => rescan_displays ());
+                monitor_manager.monitors_changed.connect (() => rescan_displays ());
                 rescan_displays ();
             } catch (GLib.Error e) {
                 critical (e.message);
@@ -185,7 +186,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
     public void rescan_displays () {
         scanning = true;
-
         display_widgets.@foreach ((display_widget) => {
             overlay.remove_overlay (display_widget);
             display_widget.destroy ();
@@ -198,6 +198,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
             add_output (virtual_monitor);
         }
 
+        show_windows ();
         change_active_displays_sensitivity ();
         calculate_ratio ();
         scanning = false;
@@ -350,10 +351,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
             check_configuration_change ();
             calculate_ratio ();
         });
-
-        if (!monitor_manager.is_mirrored && virtual_monitor.is_active) {
-            show_windows ();
-        }
     }
 
     private void set_as_primary (Display.VirtualMonitor new_primary) {
