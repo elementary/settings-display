@@ -1,3 +1,9 @@
+io.elementary.settings.display (8.0.3) noble; urgency=medium
+
+  * Release 8.0.3 (#454)
+
+ -- elementary <builds@elementary.io>  Wed, 05 Aug 2026 01:26:50 +0000
+
 io.elementary.settings.display (8.0.2) noble; urgency=medium
 
   * Update meson.build (#422)
