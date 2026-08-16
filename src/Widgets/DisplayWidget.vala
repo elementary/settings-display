@@ -332,48 +332,7 @@ public class Display.DisplayWidget : Gtk.Box {
             // Prevent breaking autohide by closing popover
             popover.popdown ();
 
-            label.css_classes = {""};
-
-            switch (virtual_monitor.transform) {
-                case DisplayTransform.NORMAL:
-                    virtual_monitor.get_current_mode_size (out real_width, out real_height);
-                    label.label = virtual_monitor_name;
-                    break;
-                case DisplayTransform.ROTATION_90:
-                    virtual_monitor.get_current_mode_size (out real_height, out real_width);
-                    label.add_css_class ("rotate-270");
-                    label.label = virtual_monitor_name;
-                    break;
-                case DisplayTransform.ROTATION_180:
-                    virtual_monitor.get_current_mode_size (out real_width, out real_height);
-                    label.add_css_class ("rotate-180");
-                    label.label = virtual_monitor_name;
-                    break;
-                case DisplayTransform.ROTATION_270:
-                    virtual_monitor.get_current_mode_size (out real_height, out real_width);
-                    label.add_css_class ("rotate-90");
-                    label.label = virtual_monitor_name;
-                    break;
-                case DisplayTransform.FLIPPED:
-                    virtual_monitor.get_current_mode_size (out real_width, out real_height);
-                    label.label = virtual_monitor_name.reverse (); //mirroring simulation, because we can't really mirror the text
-                    break;
-                case DisplayTransform.FLIPPED_ROTATION_90:
-                    virtual_monitor.get_current_mode_size (out real_height, out real_width);
-                    label.add_css_class ("rotate-270");
-                    label.label = virtual_monitor_name.reverse ();
-                    break;
-                case DisplayTransform.FLIPPED_ROTATION_180:
-                    virtual_monitor.get_current_mode_size (out real_width, out real_height);
-                    label.add_css_class ("rotate-180");
-                    label.label = virtual_monitor_name.reverse ();
-                    break;
-                case DisplayTransform.FLIPPED_ROTATION_270:
-                    virtual_monitor.get_current_mode_size (out real_height, out real_width);
-                    label.add_css_class ("rotate-90");
-                    label.label = virtual_monitor_name.reverse ();
-                    break;
-            }
+            update_rotation (label);
 
             configuration_changed ();
             check_position ();
@@ -402,6 +361,8 @@ public class Display.DisplayWidget : Gtk.Box {
             configuration_changed ();
             check_position ();
         });
+
+        update_rotation (label);
 
         virtual_monitor.modes_changed.connect (on_monitor_modes_changed);
 
@@ -466,6 +427,52 @@ public class Display.DisplayWidget : Gtk.Box {
         }
 
         refresh_combobox.sensitive = added > 1;
+    }
+
+    private void update_rotation (Gtk.Label display_label) {
+        var virtual_monitor_name = virtual_monitor.get_display_name ();
+        display_label.css_classes = {""};
+
+        switch (virtual_monitor.transform) {
+            case DisplayTransform.NORMAL:
+                virtual_monitor.get_current_mode_size (out real_width, out real_height);
+                display_label.label = virtual_monitor_name;
+                break;
+            case DisplayTransform.ROTATION_90:
+                virtual_monitor.get_current_mode_size (out real_height, out real_width);
+                display_label.add_css_class ("rotate-270");
+                display_label.label = virtual_monitor_name;
+                break;
+            case DisplayTransform.ROTATION_180:
+                virtual_monitor.get_current_mode_size (out real_width, out real_height);
+                display_label.add_css_class ("rotate-180");
+                display_label.label = virtual_monitor_name;
+                break;
+            case DisplayTransform.ROTATION_270:
+                virtual_monitor.get_current_mode_size (out real_height, out real_width);
+                display_label.add_css_class ("rotate-90");
+                display_label.label = virtual_monitor_name;
+                break;
+            case DisplayTransform.FLIPPED:
+                virtual_monitor.get_current_mode_size (out real_width, out real_height);
+                display_label.label = virtual_monitor_name.reverse (); //mirroring simulation, because we can't really mirror the text
+                break;
+            case DisplayTransform.FLIPPED_ROTATION_90:
+                virtual_monitor.get_current_mode_size (out real_height, out real_width);
+                display_label.add_css_class ("rotate-270");
+                display_label.label = virtual_monitor_name.reverse ();
+                break;
+            case DisplayTransform.FLIPPED_ROTATION_180:
+                virtual_monitor.get_current_mode_size (out real_width, out real_height);
+                display_label.add_css_class ("rotate-180");
+                display_label.label = virtual_monitor_name.reverse ();
+                break;
+            case DisplayTransform.FLIPPED_ROTATION_270:
+                virtual_monitor.get_current_mode_size (out real_height, out real_width);
+                display_label.add_css_class ("rotate-90");
+                display_label.label = virtual_monitor_name.reverse ();
+                break;
+        }
     }
 
     private void on_monitor_modes_changed () {
