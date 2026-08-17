@@ -51,6 +51,8 @@ public class Display.DisplayWidget : Gtk.Box {
 
     private Gtk.DropDown scale_drop_down;
 
+    private Gtk.Label display_label;
+
     private int real_width = 0;
     private int real_height = 0;
 
@@ -94,14 +96,6 @@ public class Display.DisplayWidget : Gtk.Box {
             valign = START
         };
         primary_image.clicked.connect (() => set_as_primary ());
-
-        var virtual_monitor_name = virtual_monitor.get_display_name ();
-        var label = new Gtk.Label (virtual_monitor_name) {
-            halign = CENTER,
-            valign = CENTER,
-            hexpand = true,
-            vexpand = true
-        };
 
         use_switch = new Granite.SwitchModelButton (_("Use This Display"));
 
@@ -269,10 +263,18 @@ public class Display.DisplayWidget : Gtk.Box {
             tooltip_text = _("Configure display")
         };
 
+        var virtual_monitor_name = virtual_monitor.get_display_name ();
+        display_label = new Gtk.Label (virtual_monitor_name) {
+            halign = CENTER,
+            valign = CENTER,
+            hexpand = true,
+            vexpand = true
+        };
+
         var grid = new Gtk.Grid ();
         grid.attach (primary_image, 0, 0);
         grid.attach (toggle_settings, 2, 0);
-        grid.attach (label, 0, 0, 3, 2);
+        grid.attach (display_label, 0, 0, 3, 2);
 
         append (grid);
 
@@ -332,7 +334,7 @@ public class Display.DisplayWidget : Gtk.Box {
             // Prevent breaking autohide by closing popover
             popover.popdown ();
 
-            update_rotation (label);
+            update_frame_rotation_and_label ();
 
             configuration_changed ();
             check_position ();
@@ -362,7 +364,7 @@ public class Display.DisplayWidget : Gtk.Box {
             check_position ();
         });
 
-        update_rotation (label);
+        update_frame_rotation_and_label ();
 
         virtual_monitor.modes_changed.connect (on_monitor_modes_changed);
 
@@ -429,7 +431,7 @@ public class Display.DisplayWidget : Gtk.Box {
         refresh_combobox.sensitive = added > 1;
     }
 
-    private void update_rotation (Gtk.Label display_label) {
+    private void update_frame_rotation_and_label () {
         var virtual_monitor_name = virtual_monitor.get_display_name ();
         display_label.css_classes = {""};
 
