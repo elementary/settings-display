@@ -30,6 +30,19 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
+    <release version="8.0.3" date="2026-08-04" urgency="medium">
+      <description>
+        <p>Minor updates:</p>
+        <ul>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+      <issues>
+        <issue url="https://github.com/elementary/settings-display/pull/439">Apply scaling to virtual monitor reported size</issue>
+        <issue url="https://github.com/elementary/settings-display/pull/449">Avoid resetting rotation and scale on refresh rate modification</issue>
+      </issues>
+    </release>
+
     <release version="8.0.2" date="2025-05-27" urgency="medium">
       <description>
         <p>Minor updates:</p>
@@ -43,6 +56,7 @@
         <issue url="https://github.com/elementary/settings-display/issues/419">Display Settings crashes when hotplugging a new monitor in a single monitor layout</issue>
       </issues>
     </release>
+
     <release version="8.0.1" date="2025-03-10" urgency="medium">
       <description>
         <p>Minor updates:</p>

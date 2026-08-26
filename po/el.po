@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2026-07-10 12:01+0000\n"
+"PO-Revision-Date: 2026-07-25 20:01+0000\n"
 "Last-Translator: Jim Spentzos <jimspentzos2000@gmail.com>\n"
 "Language-Team: Greek <https://l10n.elementaryos.org/projects/settings/"
 "display/el/>\n"
@@ -65,11 +65,11 @@ msgstr ""
 
 #: src/DisplayPlug.vala:123
 msgid "Color temperature"
-msgstr ""
+msgstr "Θερμοκρασία χρωμάτων"
 
 #: src/DisplayPlug.vala:124
 msgid "Color Blindness"
-msgstr ""
+msgstr "Αχρωματοψία"
 
 #: src/DisplayPlug.vala:125
 msgid "Color Vision Deficiency"
