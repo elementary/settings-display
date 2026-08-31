@@ -16,7 +16,7 @@ public class Display.SensorManager : Object {
         return instance.once (() => new SensorManager ());
     }
 
-    private class SensorManager () { }
+    private SensorManager () { }
 
     construct {
         try {

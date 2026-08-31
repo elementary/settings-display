@@ -23,6 +23,7 @@ public class Display.MonitorManager : GLib.Object {
     public Gee.LinkedList<Display.VirtualMonitor> virtual_monitors { get; construct; }
     public Gee.LinkedList<Display.Monitor> monitors { get; construct; }
 
+    public bool night_light_supported { get; private set; }
     public bool fractional_scale_enabled { get; private set; }
     public bool global_scale_required { get; private set; }
     public bool mirroring_supported { get; private set; }
@@ -68,6 +69,8 @@ public class Display.MonitorManager : GLib.Object {
         try {
             iface = Bus.get_proxy_sync (BusType.SESSION, "org.gnome.Mutter.DisplayConfig", "/org/gnome/Mutter/DisplayConfig");
             iface.monitors_changed.connect (get_monitor_config);
+
+            night_light_supported = iface.night_light_supported;
         } catch (Error e) {
             critical (e.message);
         }
