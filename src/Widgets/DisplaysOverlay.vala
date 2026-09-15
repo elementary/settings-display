@@ -447,6 +447,11 @@ public class Display.DisplaysOverlay : Gtk.Box {
         if (!changed_widget.virtual_monitor.is_active) {
             return moved;
         }
+        if (level > 10) {
+            warning ("Depth of edges alignment recursion exceeds limit (10)");
+            return moved;
+        }
+
         int x, y, width, height;
         Gdk.Rectangle overlap;
         foreach (unowned var other_display_widget in display_widgets) {
