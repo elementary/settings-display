@@ -134,7 +134,9 @@ public class Display.DisplaysOverlay : Gtk.Box {
         foreach (var display_widget in display_widgets) {
             get_child_position (display_widget, out alloc);
             if (start_rect.intersect (alloc, null)) {
-                dragging_display = display_widget;
+                if (display_widget.virtual_monitor.is_active) {
+                    dragging_display = display_widget;
+                }
                 break;
             }
         }
