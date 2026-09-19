@@ -41,6 +41,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
     private unowned Display.MonitorManager monitor_manager;
     private GalaDBus gala_dbus = null;
     public int active_displays { get; set; default = 0; }
+    /// Number of inactive displays. This should never be decreased. Always go up from 0
     private int inactive_displays = 0;
 
     private List<DisplayWidget> display_widgets;
@@ -131,7 +132,7 @@ public class Display.DisplaysOverlay : Gtk.Box {
         Gtk.Allocation alloc;
         prev_dx = 0;
         prev_dy = 0;
-        foreach (var display_widget in display_widgets) {
+        foreach (unowned var display_widget in display_widgets) {
             get_child_position (display_widget, out alloc);
             if (start_rect.intersect (alloc, null)) {
                 if (display_widget.virtual_monitor.is_active) {
@@ -206,10 +207,6 @@ public class Display.DisplaysOverlay : Gtk.Box {
         inactive_displays = 0;
 
         foreach (var virtual_monitor in monitor_manager.virtual_monitors) {
-            if (virtual_monitor.is_active) {
-                active_displays++;
-            }
-
             add_output (virtual_monitor);
         }
 
@@ -364,6 +361,17 @@ public class Display.DisplaysOverlay : Gtk.Box {
         default_y_margin -= (int) (min_y * current_ratio); // Allow for origin not being at 0, 0
     }
 
+    private void refresh_inactive_display_indexes () {
+        inactive_displays = 0;
+
+        foreach (unowned var display_widget in display_widgets) {
+            if (!display_widget.virtual_monitor.is_active) {
+                inactive_displays++;
+                display_widget.set_data<int> ("n-inactive", inactive_displays);
+            }
+        }
+    }
+
     private void add_output (Display.VirtualMonitor virtual_monitor) {
         current_width = 0;
         current_height = 0;
@@ -375,6 +383,13 @@ public class Display.DisplaysOverlay : Gtk.Box {
         overlay.add_overlay (display_widget);
         display_widgets.append (display_widget);
 
+        if (virtual_monitor.is_active) {
+            active_displays++;
+        } else {
+            inactive_displays++;
+            display_widget.set_data<int> ("n-inactive", inactive_displays);
+        }
+
         display_widget.set_as_primary.connect (() => set_as_primary (display_widget.virtual_monitor));
 
         display_widget.check_position.connect (() => {
@@ -383,13 +398,9 @@ public class Display.DisplaysOverlay : Gtk.Box {
 
         display_widget.configuration_changed.connect (check_configuration_change);
 
-        if (!display_widget.virtual_monitor.is_active) {
-            inactive_displays++;
-            display_widget.set_data<int> ("n-inactive", inactive_displays);
-        }
         display_widget.active_changed.connect (() => {
             if (virtual_monitor.is_active) {
-                inactive_displays--;
+                refresh_inactive_display_indexes ();
                 display_widget.steal_data<int> ("n-inactive");
                 active_displays++;
             } else {
