@@ -51,7 +51,9 @@ public class Display.Plug : Switchboard.Plug {
             stack.add_titled (displays_view, "displays", _("Displays"));
 
             var interface_settings_schema = SettingsSchemaSource.get_default ().lookup ("org.gnome.settings-daemon.plugins.color", true);
-            if (interface_settings_schema != null && interface_settings_schema.has_key ("night-light-enabled")) {
+            if (interface_settings_schema != null && interface_settings_schema.has_key ("night-light-enabled") &&
+                MonitorManager.get_default ().night_light_supported
+            ) {
                 var nightlight_view = new NightLightView ();
                 stack.add_titled (nightlight_view, "night-light", _("Night Light"));
             }
@@ -118,9 +120,6 @@ public class Display.Plug : Switchboard.Plug {
         search_results.set ("%s → %s".printf (display_name, _("Screen mirroring")), "displays");
         search_results.set ("%s → %s".printf (display_name, _("Screen Rotation")), "displays");
         search_results.set ("%s → %s".printf (display_name, _("Scaling factor")), "displays");
-        search_results.set ("%s → %s".printf (display_name, _("Night Light")), "night-light");
-        search_results.set ("%s → %s → %s".printf (display_name, _("Night Light"), _("Schedule")), "night-light");
-        search_results.set ("%s → %s → %s".printf (display_name, _("Night Light"), _("Color temperature")), "night-light");
         search_results.set ("%s → %s → %s".printf (display_name, _("Filters"), _("Color Blindness")), "filters");
         search_results.set ("%s → %s → %s".printf (display_name, _("Filters"), _("Color Vision Deficiency")), "filters");
         search_results.set ("%s → %s → %s".printf (display_name, _("Filters"), _("Grayscale")), "filters");
@@ -128,6 +127,12 @@ public class Display.Plug : Switchboard.Plug {
 
         if (SensorManager.get_default ().has_accelerometer) {
             search_results.set ("%s → %s".printf (display_name, _("Rotation lock")), "displays");
+        }
+
+        if (MonitorManager.get_default ().night_light_supported) {
+            search_results.set ("%s → %s".printf (display_name, _("Night Light")), "night-light");
+            search_results.set ("%s → %s → %s".printf (display_name, _("Night Light"), _("Schedule")), "night-light");
+            search_results.set ("%s → %s → %s".printf (display_name, _("Night Light"), _("Color temperature")), "night-light");
         }
 
         return search_results;

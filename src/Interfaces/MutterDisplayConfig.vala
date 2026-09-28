@@ -21,6 +21,8 @@
 
 [DBus (name = "org.gnome.Mutter.DisplayConfig")]
 public interface MutterDisplayConfigInterface : Object {
+    public abstract bool night_light_supported { get; }
+
     public abstract void get_resources (out uint serial, out MutterReadDisplayCrtc[] crtcs, out MutterReadDisplayOutput[] outputs, out MutterReadDisplayMode[] modes, out int max_screen_width, out int max_screen_height) throws Error;
     public abstract void apply_configuration (uint serial, bool persistent, MutterWriteDisplayCrtc[] crtcs, MutterWriteDisplayOutput[] outputs) throws Error;
     public abstract int change_backlight (uint serial, uint output, int value) throws Error;
