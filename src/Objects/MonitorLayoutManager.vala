@@ -44,11 +44,13 @@ public class Display.MonitorLayoutManager : GLib.Object {
                             props.lookup ("y", "i", out y) &&
                             props.lookup ("transform", "u", out t) &&
                             props.lookup ("primary", "b", out p) &&
-                            props.lookup ("enabled", "b", out e)) {
-
+                            props.lookup ("enabled", "b", out e)
+                        ) {
+                            // Set transform first, since modifying it changes the transform selected value, which
+                            // triggers configuration and positions checks, mofifying x and y
+                            virtual_monitor.transform = t;
                             virtual_monitor.x = x;
                             virtual_monitor.y = y;
-                            virtual_monitor.transform = t;
                             virtual_monitor.primary = p;
                             virtual_monitor.is_active = e;
                         } else {
