@@ -31,34 +31,42 @@ public class Display.MonitorLayoutManager : GLib.Object {
         Variant? monitors = null;
         if (layouts != null) {
             monitors = layouts.lookup_value (layout_key, VariantType.VARDICT);
-            foreach (var virtual_monitor in virtual_monitors) {
-                Variant? props = monitors.lookup_value (virtual_monitor.id, VariantType.VARDICT);
-                if (props != null) {
-                    int32 x = 0, y = 0;
-                    uint32 t = 0;
-                    bool p = false, e = false;
-                    if (props.lookup ("x", "i", out x) &&
-                        props.lookup ("y", "i", out y) &&
-                        props.lookup ("transform", "u", out t) &&
-                        props.lookup ("primary", "b", out p) &&
-                        props.lookup ("enabled", "b", out e)) {
-
-                        virtual_monitor.x = x;
-                        virtual_monitor.y = y;
-                        virtual_monitor.transform = t;
-                        virtual_monitor.primary = p;
-                        virtual_monitor.is_active = e;
-                     } else {
-                         warning ("property setting missing for monitor %s", virtual_monitor.get_display_name ());
-                     }
-                } else {
-                    warning ("no property dictionary found for monitor.id %s", virtual_monitor.get_display_name ());
+            if (monitors != null) {
+                foreach (var virtual_monitor in virtual_monitors) {
+                    Variant? props = monitors.lookup_value (virtual_monitor.id, VariantType.VARDICT);
+                    if (props != null) {
+                        debug ("monitor %s props: %s", virtual_monitor.id, props.print (false));
+                        int32 x = 0, y = 0;
+                        uint32 t = 0;
+                        bool p = false, e = false;
+                        if (props.lookup ("x", "i", out x) &&
+                            props.lookup ("y", "i", out y) &&
+                            props.lookup ("transform", "u", out t) &&
+                            props.lookup ("primary", "b", out p) &&
+                            props.lookup ("enabled", "b", out e)
+                        ) {
+                            // Set transform first, since modifying it changes the transform selected value, which
+                            // triggers configuration and positions checks, mofifying x and y
+                            virtual_monitor.transform = t;
+                            virtual_monitor.x = x;
+                            virtual_monitor.y = y;
+                            virtual_monitor.primary = p;
+                            virtual_monitor.is_active = e;
+                        } else {
+                            warning ("no properties for monitor %s in a configuration that is supposed to include it",
+                                virtual_monitor.get_display_name ());
+                        }
+                    } else {
+                        warning ("no property dictionary found for monitor.id %s", virtual_monitor.get_display_name ());
+                    }
                 }
+            } else {
+                warning ("no configuration for the layout %s ", layout_key);
             }
 
             return;
         } else {
-            warning ("layout key %s not found", layout_key);
+            warning ("preferred layout key %s not found", PREFERRED_MONITOR_LAYOUTS_KEY);
         }
 
         // If no layout found, we save the current layout to use later
@@ -67,7 +75,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
     public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         var save_key = get_layout_key (virtual_monitors);
-
         var monitor_dict = new VariantDict ();
         foreach (var monitor in virtual_monitors) {
             var props_dict = new VariantDict ();
@@ -89,19 +96,23 @@ public class Display.MonitorLayoutManager : GLib.Object {
         settings.set_value (PREFERRED_MONITOR_LAYOUTS_KEY, layouts_dict.end ());
     }
 
+    /**
+     * Generate a unique key based on the virtual monitors' monitors hashes
+     */
     private string get_layout_key (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
-        // Generate a unique key based on the virtual monitors' monitors hashes
-        //NOTE The key depends on the order of the list which will change depending on whether monitors are
-        // active or not (and possibly on the order they were connected).
-        //TODO Consider whether a more controlled key is needed
+        var sorted_virtual_monitor_list = virtual_monitors;
+        sorted_virtual_monitor_list.sort ((vm1, vm2) => strcmp (vm1.id, vm2.id));
+
         var key = new StringBuilder ();
 
         foreach (var virtual_monitor in virtual_monitors) {
-            foreach (var monitor in virtual_monitor.monitors) {
+            if (virtual_monitor.is_active) {
+                key.append ("-");
                 key.append (virtual_monitor.id);
             }
         }
 
+        key.erase (0, 1);
         return key.str;
     }
 }

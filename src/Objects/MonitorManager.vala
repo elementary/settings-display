@@ -427,6 +427,10 @@ public class Display.MonitorManager : GLib.Object {
         notify_property ("is-mirrored");
     }
 
+    public void on_virtual_monitor_active_changed (VirtualMonitor vm) {
+        layout_manager.arrange_monitors (virtual_monitors);
+    }
+
     private VirtualMonitor? get_virtual_monitor_by_id (string id) {
         foreach (var vm in virtual_monitors) {
             if (vm.id == id) {
