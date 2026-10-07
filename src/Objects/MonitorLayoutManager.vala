@@ -26,7 +26,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
         }
 
         var layout_key = get_layout_key (virtual_monitors);
-        debug ("layout key used to arrange virtual monitors: %s", layout_key);
         // Layouts format are 'a{sa{sa{sv}}}'
         var layouts = settings.get_value (PREFERRED_MONITOR_LAYOUTS_KEY);
         Variant? monitors = null;
@@ -67,7 +66,7 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
             return;
         } else {
-            warning ("prefered layout key %s not found", PREFERRED_MONITOR_LAYOUTS_KEY);
+            warning ("preferred layout key %s not found", PREFERRED_MONITOR_LAYOUTS_KEY);
         }
 
         // If no layout found, we save the current layout to use later
@@ -76,8 +75,6 @@ public class Display.MonitorLayoutManager : GLib.Object {
 
     public void save_layout (Gee.LinkedList<VirtualMonitor> virtual_monitors) {
         var save_key = get_layout_key (virtual_monitors);
-        debug ("saved layout key for virtual monitors disposition: %s", save_key);
-
         var monitor_dict = new VariantDict ();
         foreach (var monitor in virtual_monitors) {
             var props_dict = new VariantDict ();
