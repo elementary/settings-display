@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: audience\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2026-10-24 21:04+0000\n"
+"PO-Revision-Date: 2026-10-27 02:49+0000\n"
 "Last-Translator: CodeBeats <nicholai67@hotmail.com>\n"
 "Language-Team: Danish <https://l10n.elementaryos.org/projects/settings/"
 "display/da/>\n"
@@ -164,7 +164,7 @@ msgstr "LoDPI"
 
 #: src/Views/DisplaysView.vala:39 src/Views/DisplaysView.vala:40
 msgid "HiDPI"
-msgstr ""
+msgstr "HiDPI"
 
 #: src/Views/DisplaysView.vala:51
 msgid "Detect Displays"
@@ -188,7 +188,7 @@ msgstr "Dette kan skyldes en ugyldig konfiguration."
 
 #: src/Views/FiltersView.vala:10
 msgid "Color Deficiency Assistance"
-msgstr ""
+msgstr "Hjælp til farveblinde"
 
 #: src/Views/FiltersView.vala:11
 msgid ""
