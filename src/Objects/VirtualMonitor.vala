@@ -32,12 +32,21 @@ public class Display.VirtualMonitor : GLib.Object {
         }
     }
 
+    public class Transform : GLib.Object {
+        public DisplayTransform transform { get; construct; }
+        public string string_representation { get; construct; }
+
+        public Transform (DisplayTransform transform) {
+            Object (transform: transform, string_representation: transform.to_string ());
+        }
+    }
+
     public int x { get; set; }
     public int y { get; set; }
     public int current_x { get; set; }
     public int current_y { get; set; }
     public Gtk.SingleSelection available_scales { get; construct; }
-    public DisplayTransform transform { get; set; }
+    public Gtk.SingleSelection available_transforms { get; construct; }
     public bool primary { get; set; }
     public Gee.LinkedList<Display.Monitor> monitors { get; construct; }
 
@@ -59,7 +68,12 @@ public class Display.VirtualMonitor : GLib.Object {
         }
     }
 
-    /*
+    public DisplayTransform transform {
+        get { return (DisplayTransform) available_transforms.selected; }
+        set { available_transforms.selected = value; }
+    }
+
+    /**
      * Used to distinguish two VirtualMonitors from each other.
      * We make up and ID by sum all hashes of
      * monitors that a VirtualMonitor has.
@@ -83,7 +97,7 @@ public class Display.VirtualMonitor : GLib.Object {
 
     public bool is_active { get; set; default = true; }
 
-    /*
+    /**
      * Get the first monitor of the list, handy in non-mirror context.
      */
     public Display.Monitor monitor {
@@ -103,6 +117,15 @@ public class Display.VirtualMonitor : GLib.Object {
 
         available_scales_store = new ListStore (typeof (Scale));
         available_scales = new Gtk.SingleSelection (available_scales_store);
+
+        var available_transforms_store = new ListStore (typeof (Transform));
+        available_transforms = new Gtk.SingleSelection (available_transforms_store) {
+            autoselect = true
+        };
+
+        for (int i = 0; i <= DisplayTransform.FLIPPED_ROTATION_270; i++) {
+            available_transforms_store.append (new Transform ((DisplayTransform) i));
+        }
     }
 
     public unowned string get_display_name () {
@@ -119,23 +142,23 @@ public class Display.VirtualMonitor : GLib.Object {
             // mode when the monitor is re-activated
             foreach (var mode in monitor.modes) {
                 if (mode.is_preferred) {
-                    width = mode.width;
-                    height = mode.height;
+                    width = apply_current_scale (mode.width);
+                    height = apply_current_scale (mode.height);
                     return;
                 }
             }
 
             // Last resort fallback if no preferred mode
-            width = 1280;
-            height = 720;
+            width = apply_current_scale (1280);
+            height = apply_current_scale (720);
         } else if (is_mirror) {
             var current_mode = monitors[0].current_mode;
-            width = current_mode.width;
-            height = current_mode.height;
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         } else {
             var current_mode = monitor.current_mode;
-            width = current_mode.width;
-            height = current_mode.height;
+            width = apply_current_scale (current_mode.width);
+            height = apply_current_scale (current_mode.height);
         }
     }
 
@@ -200,7 +223,11 @@ public class Display.VirtualMonitor : GLib.Object {
             }
         }
 
-        scale = current_mode.preferred_scale;
+        // Set default scale if the current scale is not present anymore in the available ones
+        if (!is_scale_available ()) {
+            info ("Previous scaling is not present in the new availables scales, defaulting to the preferred one\n");
+            scale = current_mode.preferred_scale;
+        }
     }
 
     public static string generate_id_from_monitors (MutterReadMonitorInfo[] infos) {
@@ -210,5 +237,28 @@ public class Display.VirtualMonitor : GLib.Object {
         }
 
         return val.to_string ();
+    }
+
+    /**
+     * Apply scaling, to avoid gaps between virtual monitors in the configuration
+     * @param dimension The monitor dimension to scale (width or height) by the current `scale` factor
+     * @return the dimension scaled then rounded up and converted back to int
+     */
+    private int apply_current_scale (int dimension) {
+        return (int) Math.ceil (dimension / scale);
+    }
+
+    /**
+     * Check if the current scale value is available in current available scales
+     * @return true if the current scale value is present in available_scales_store, false otherwise
+     */
+    private bool is_scale_available () {
+        for (uint i = available_scales_store.get_n_items (); i-- > 0; ) {
+            var new_scale = (Scale) available_scales_store.get_item (i);
+            if (new_scale != null && scale == new_scale.scale) {
+                return true;
+            }
+        }
+        return false;
     }
 }

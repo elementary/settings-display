@@ -11,10 +11,10 @@ Extension for [System Settings](https://github.com/elementary/switchboard) to ma
 You'll need the following dependencies:
 
 * libadwaita-1-dev
-* libgranite-7-dev
+* libgranite-7-dev >= 7.7.0
 * libgtk-4-dev
 * libswitchboard-3-dev
-* meson
+* meson >= 0.58.0
 * valac
 
 Run `meson` to configure the build environment and then `ninja` to build

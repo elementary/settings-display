@@ -51,7 +51,7 @@ public class Display.DisplaysView : Gtk.Box {
             var detect_button = new Gtk.Button.with_label (_("Detect Displays"));
 
             var apply_button = new Gtk.Button.with_label (_("Apply"));
-            apply_button.add_css_class (Granite.STYLE_CLASS_SUGGESTED_ACTION);
+            apply_button.add_css_class (Granite.CssClass.SUGGESTED);
             apply_button.sensitive = false;
 
             var button_box = new Gtk.Box (HORIZONTAL, 6) {
