@@ -232,7 +232,9 @@ public class Display.DisplayWidget : Gtk.Box {
             mnemonic_widget = scale_drop_down
         };
 
-        var popover_box = new Gtk.Box (VERTICAL, 0);
+        var popover_box = new Gtk.Box (VERTICAL, 0) {
+            margin_bottom = 6
+        };
         popover_box.append (resolution_label);
         popover_box.append (resolution_combobox);
         popover_box.append (rotation_label);
