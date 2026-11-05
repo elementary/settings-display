@@ -2,7 +2,6 @@ plug_files = files(
     'Utils.vala',
     'SettingsDaemon.vala',
     'DisplayPlug.vala',
-    'Interfaces/GalaDBus.vala',
     'Interfaces/NightLightManager.vala',
     'Interfaces/MutterDisplayConfig.vala',
     'Interfaces/SensorManager.vala',
@@ -16,6 +15,7 @@ plug_files = files(
     'Views' / 'FiltersView.vala',
     'Widgets/DisplayWidget.vala',
     'Widgets/DisplaysOverlay.vala',
+    'Widgets' / 'MonitorLabel.vala',
 )
 
 switchboard_dep = dependency('switchboard-3')
@@ -32,7 +32,9 @@ shared_module(
         dependency('gobject-2.0'),
         dependency('granite-7', version: '>=7.7.0'),
         dependency('gtk4'),
+        dependency('gtk4-x11'),
         dependency('libadwaita-1'),
+        dependency('pantheon-wayland-1'),
         meson.get_compiler('vala').find_library('posix'),
         switchboard_dep
     ],
