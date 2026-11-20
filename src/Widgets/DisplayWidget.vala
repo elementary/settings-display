@@ -233,10 +233,8 @@ public class Display.DisplayWidget : Gtk.Box {
         };
 
         var popover_box = new Gtk.Box (VERTICAL, 0) {
-            margin_top = 6,
-            margin_bottom = 12
+            margin_bottom = 6
         };
-        popover_box.append (use_switch);
         popover_box.append (resolution_label);
         popover_box.append (resolution_combobox);
         popover_box.append (rotation_label);
@@ -244,24 +242,33 @@ public class Display.DisplayWidget : Gtk.Box {
         popover_box.append (refresh_label);
         popover_box.append (refresh_combobox);
 
+        var use_item = new GLib.MenuItem (null, null);
+        use_item.set_attribute_value ("custom", "use-switch");
+
+        var box_item = new GLib.MenuItem (null, null);
+        box_item.set_attribute_value ("custom", "popover-box");
+
+        var menu_model = new GLib.Menu ();
+        menu_model.append_item (use_item);
+        menu_model.append_item (box_item);
+
         if (!MonitorManager.get_default ().global_scale_required) {
             popover_box.append (scale_label);
             popover_box.append (scale_drop_down);
         }
-
-        var popover = new Gtk.Popover () {
-            child = popover_box,
-            position = BOTTOM
-        };
 
         var toggle_settings = new Gtk.MenuButton () {
             has_frame = false,
             halign = END,
             valign = START,
             icon_name = "open-menu-symbolic",
-            popover = popover,
+            menu_model = menu_model,
             tooltip_text = _("Configure display")
         };
+
+        var popover = (Gtk.PopoverMenu) toggle_settings.popover;
+        popover.add_child (use_switch, "use-switch");
+        popover.add_child (popover_box, "popover-box");
 
         var virtual_monitor_name = virtual_monitor.get_display_name ();
         display_label = new Gtk.Label (virtual_monitor_name) {
