@@ -10,7 +10,6 @@ plug_files = files(
     'Objects/MonitorManager.vala',
     'Objects/Monitor.vala',
     'Objects/MonitorLayoutManager.vala',
-    'Views/NightLightView.vala',
     'Views/DisplaysView.vala',
     'Views' / 'FiltersView.vala',
     'Widgets/DisplayWidget.vala',
