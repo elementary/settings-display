@@ -32,7 +32,7 @@ public class Display.Plug : Switchboard.Plug {
 
         var settings = new Gee.TreeMap<string, string?> (null, null);
         settings.set ("display", "displays");
-        settings.set ("display/night-light", "night-light");
+        settings.set ("display/night-light", "filters");
         settings.set ("display/filters", "filters");
         Object (category: Category.HARDWARE,
                 code_name: "io.elementary.settings.display",
@@ -46,21 +46,11 @@ public class Display.Plug : Switchboard.Plug {
     public override Gtk.Widget get_widget () {
         if (box == null) {
             displays_view = new DisplaysView ();
+            var filters_view = new FiltersView ();
 
             stack = new Gtk.Stack ();
             stack.add_titled (displays_view, "displays", _("Displays"));
-
-            var interface_settings_schema = SettingsSchemaSource.get_default ().lookup ("org.gnome.settings-daemon.plugins.color", true);
-            if (interface_settings_schema != null && interface_settings_schema.has_key ("night-light-enabled")) {
-                var nightlight_view = new NightLightView ();
-                stack.add_titled (nightlight_view, "night-light", _("Night Light"));
-            }
-
-            var filters_settings_schema = SettingsSchemaSource.get_default ().lookup ("io.elementary.desktop.wm.accessibility", true);
-            if (filters_settings_schema != null && filters_settings_schema.has_key ("colorblindness-correction-filter")) {
-                var filters_view = new FiltersView ();
-                stack.add_titled (filters_view, "filters", _("Filters"));
-            }
+            stack.add_titled (filters_view, "filters", _("Filters"));
 
             var stack_switcher = new Gtk.StackSwitcher () {
                 stack = stack
