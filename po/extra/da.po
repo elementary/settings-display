@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-19 21:42+0000\n"
-"PO-Revision-Date: 2026-10-24 21:04+0000\n"
+"PO-Revision-Date: 2026-11-22 21:04+0000\n"
 "Last-Translator: CodeBeats <nicholai67@hotmail.com>\n"
 "Language-Team: Danish <https://l10n.elementaryos.org/projects/settings/"
 "display-plug-extra/da/>\n"
@@ -29,14 +29,14 @@ msgstr "Konfigurer opløsning og placering af skærme og projektorer"
 
 #: data/display.metainfo.xml.in:27
 msgid "elementary, Inc."
-msgstr ""
+msgstr "elementary, Inc."
 
 #: data/display.metainfo.xml.in:35 data/display.metainfo.xml.in:47
 #: data/display.metainfo.xml.in:63 data/display.metainfo.xml.in:78
 #: data/display.metainfo.xml.in:96 data/display.metainfo.xml.in:109
 #: data/display.metainfo.xml.in:126
 msgid "Minor updates:"
-msgstr ""
+msgstr "Mindre opdateringer:"
 
 #: data/display.metainfo.xml.in:37 data/display.metainfo.xml.in:52
 #: data/display.metainfo.xml.in:66 data/display.metainfo.xml.in:80
@@ -88,7 +88,7 @@ msgstr ""
 
 #: data/display.metainfo.xml.in:118
 msgid "New features:"
-msgstr ""
+msgstr "Nye funktioner:"
 
 #: data/display.metainfo.xml.in:120
 msgid "Support 3× scaling"

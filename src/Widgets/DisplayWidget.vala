@@ -295,12 +295,12 @@ public class Display.DisplayWidget : Gtk.Box {
 
             if (use_switch.active) {
                 remove_css_class ("disabled");
-                remove_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-                remove_css_class (Granite.STYLE_CLASS_SMALL_LABEL);
+                remove_css_class (Granite.CssClass.DIM);
+                remove_css_class (Granite.CssClass.SMALL);
             } else {
                 add_css_class ("disabled");
-                add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-                add_css_class (Granite.STYLE_CLASS_SMALL_LABEL);
+                add_css_class (Granite.CssClass.DIM);
+                add_css_class (Granite.CssClass.SMALL);
             }
 
             configuration_changed ();
